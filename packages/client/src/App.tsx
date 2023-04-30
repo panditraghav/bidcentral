@@ -1,25 +1,18 @@
-import { useEffect, useState } from 'react'
+import { ThemeProvider, createTheme } from "@mui/material";
+import MyAppBar from "./components/AppBar";
 
+const darkTheme = createTheme({
+    palette: {
+        mode: 'dark',
+    },
+});
 
-function App() {
-    const [res, setRes] = useState("")
-    useEffect(() => {
-        async function getRequest() {
-            try {
-                const res = await fetch('http://localhost:3000')
-                const resText = await res.text()
-                setRes(resText)
-            } catch (error) {
-                console.log(error)
-            }
-        }
-        getRequest()
-    }, [])
+export default function App() {
     return (
         <>
-            {res}
+            <ThemeProvider theme={darkTheme}>
+                <MyAppBar />
+            </ThemeProvider>
         </>
-    )
+    );
 }
-
-export default App
