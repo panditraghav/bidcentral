@@ -1,15 +1,16 @@
 import { LockOutlined as LockOutlinedIcon } from '@mui/icons-material';
 import { Avatar, Box, Button, Container, TextField, Typography } from "@mui/material";
 import { useState } from "react";
-import { Link } from 'react-router-dom';
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
-export default function Login() {
+export default function SignUp() {
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
+    const [reenterPassword, setReenterPassword] = useState("")
+
     const navigate = useNavigate()
 
-    function handleLogin() {
+    function handleSignUp() {
         navigate('/')
     }
     return (
@@ -27,7 +28,7 @@ export default function Login() {
                     <LockOutlinedIcon />
                 </Avatar>
                 <Typography component="h1" variant="h5">
-                    Login in
+                    Sign Up
                 </Typography>
                 <Box component="form" onSubmit={(ev) => { ev.preventDefault() }} noValidate sx={{ mt: 1 }}>
                     <TextField
@@ -54,18 +55,28 @@ export default function Login() {
                         id="password"
                         autoComplete="current-password"
                     />
+                    <TextField
+                        margin="normal"
+                        required
+                        value={reenterPassword}
+                        onChange={(e) => setReenterPassword(e.target.value)}
+                        fullWidth
+                        label="Reenter Password"
+                        type="password"
+                        id="password"
+                    />
                     <Button
                         type="submit"
                         fullWidth
                         variant="contained"
                         sx={{ mt: 3, mb: 2 }}
-                        onClick={handleLogin}
+                        onClick={handleSignUp}
                     >
-                        Log In
+                        Sign Up
                     </Button>
                     <Typography color="gray">
-                        <Link to="/signup">
-                            Don't have an account, signup?
+                        <Link to="/login">
+                            Go back to login
                         </Link>
                     </Typography>
                 </Box>
