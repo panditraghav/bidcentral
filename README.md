@@ -1,6 +1,6 @@
-# Academize
+# Ebidding
 
-A minimal course management system
+A E-bidding system
 
 ## Development setup
 
