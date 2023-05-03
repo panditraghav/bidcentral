@@ -1,4 +1,3 @@
-import { useTheme } from '@emotion/react';
 import { Button, Card, CardActions, CardContent, CardMedia, Grid, Typography } from '@mui/material';
 import { useState } from 'react';
 import { ItemType } from '../utils/types';
@@ -6,10 +5,6 @@ import { Link } from 'react-router-dom';
 
 
 export default function ItemCard({ item }: { item: ItemType }) {
-    const theme = useTheme()
-    //@ts-ignore
-    const mode = theme.palette.mode as ThemeMode
-
     const [isImageLoaded, setIsImageLoaded] = useState(false)
 
     return (
