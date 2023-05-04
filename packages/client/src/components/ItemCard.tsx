@@ -1,11 +1,13 @@
 import { Button, Card, CardActions, CardContent, CardMedia, Grid, Typography } from '@mui/material';
 import { useState } from 'react';
-import { ItemType } from '../utils/types';
 import { Link } from 'react-router-dom';
+import { ItemType } from '../utils/types';
+import { useCountdown } from '../hooks/countdown';
 
 
 export default function ItemCard({ item }: { item: ItemType }) {
     const [isImageLoaded, setIsImageLoaded] = useState(false)
+    const countDown = useCountdown(item.endDate)
 
     return (
         <Grid item xs={12} sm={6} md={4}>
@@ -30,6 +32,9 @@ export default function ItemCard({ item }: { item: ItemType }) {
                     </Typography>
                     <Typography color="primary" sx={{ mt: 1 }}>
                         Latest bid:- {item.currentPrice / 100} Rs.
+                    </Typography>
+                    <Typography color="secondary" sx={{ mt: 1 }}>
+                        Time Remaining:- {countDown.hours} hours, {countDown.minutes} minutes, {countDown.seconds} seconds
                     </Typography>
                 </CardContent>
                 <CardActions sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>

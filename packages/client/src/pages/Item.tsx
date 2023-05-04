@@ -4,6 +4,7 @@ import { items } from "../utils/testData";
 import { useEffect, useState } from "react";
 import { ItemType } from "../utils/types";
 import { Add, Remove } from "@mui/icons-material";
+import { useCountdown } from "../hooks/countdown";
 
 //Taking money in paisa instead of rupee for precition
 const BID_OFFSET = 50 * 100;
@@ -12,13 +13,14 @@ export default function Item() {
     const [newBid, setNewBid] = useState<number>(0)
     const [latestBid, setLatestBid] = useState<number>(0)
     const [requiredItem, setRequiredItem] = useState<ItemType>()
+    const countDown = useCountdown(requiredItem?.endDate || new Date())
 
     const { id } = useParams()
     useEffect(() => {
         const reqItem = items.find(item => item.id === id)
         const initialPrice = reqItem?.currentPrice ? reqItem.currentPrice + BID_OFFSET : 0
         setRequiredItem(reqItem)
-        setNewBid(initialPrice)
+        setNewBid(initialPrice + BID_OFFSET)
         setLatestBid(initialPrice)
     }, [])
 
@@ -34,6 +36,9 @@ export default function Item() {
                 <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                     <Typography component={'span'} variant="body1" sx={{ my: 2 }} color="primary">
                         Latest Bid:- {latestBid / 100} Rs
+                    </Typography>
+                    <Typography color="secondary">
+                        Time Remaining:- {countDown.hours} hours, {countDown.minutes} minutes, {countDown.seconds} seconds
                     </Typography>
                     <Box sx={{ display: 'flex', mt: 2, mb: 3 }}>
                         <IconButton
