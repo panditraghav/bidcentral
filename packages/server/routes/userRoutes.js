@@ -4,8 +4,6 @@ const authController = require("../controllers/authController");
 const router = express.Router();
 
 ////////////////////////////////////////////////////////////
-// These routes can be accessed by 'admin' as well as 'user'
-
 // This is non-protected route, so that anyone with credentials can login
 router.post("/login", authController.login);
 

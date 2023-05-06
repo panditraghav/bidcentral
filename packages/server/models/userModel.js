@@ -7,6 +7,7 @@ const userSchema = mongoose.Schema({
     type: String,
     required: [true, "A user should have a name"],
   },
+  slug: String,
   email: {
     type: String,
     required: [true, "A user should have an email"],
@@ -41,6 +42,10 @@ const userSchema = mongoose.Schema({
   updatedAt: {
     type: Date,
   },
+});
+
+userSchema.pre("save", (next) => {
+  this.slug = slugifiy(this.name, { lower: true });
 });
 
 // // Using a pre 'save' middleware to encrypt password before saving

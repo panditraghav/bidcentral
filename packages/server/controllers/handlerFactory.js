@@ -25,15 +25,12 @@ exports.createDocument = (Model) => {
 
 exports.getDocument = (Model) => {
   return async (req, res) => {
-    // Taking the id from the parameter
-    const id = req.params.id;
-
     // If user wants only limited information,
     // he should query those fields with the request
     // ex.
     // '/api/v1/users/:id?firstName=true,email=true
 
-    let doc = await Model.findById(id);
+    let doc = await Model.findOne({ slug: req.params.slug });
 
     // Check if user wants any particular field
     if (Object.keys(req.query).length !== 0) {
@@ -54,7 +51,7 @@ exports.getDocument = (Model) => {
 
     res.status(200).json({
       status: "success",
-      user,
+      doc,
     });
   };
 };
