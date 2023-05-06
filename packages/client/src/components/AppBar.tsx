@@ -1,12 +1,12 @@
 import DarkModeIcon from '@mui/icons-material/DarkMode';
 import LightModeIcon from '@mui/icons-material/LightMode';
-import { IconButton } from '@mui/material';
+import { Container, IconButton } from '@mui/material';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
+import Search from './Search';
 
 type ThemeMode = 'dark' | 'light'
 
@@ -18,10 +18,21 @@ export default function MyAppBar({ themeMode, toggleMode }: { themeMode: ThemeMo
     return (
         <Box sx={{ flexGrow: 1 }}>
             <AppBar position="static">
-                <Toolbar>
+                <Container
+                    maxWidth="md"
+                    sx={{
+                        display: 'flex',
+                        py: 1,
+                        alignItems: 'center',
+                        justifyContent: 'space-between'
+                    }}
+                >
                     <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
                         <Link to="/">BidMaker</Link>
                     </Typography>
+                    {pathname == '/login' || pathname == '/signup' ? <></> :
+                        <Search />
+                    }
                     <IconButton onClick={toggleMode}>
                         {themeMode === 'dark' ? <LightModeIcon /> : <DarkModeIcon />}
                     </IconButton>
@@ -36,7 +47,7 @@ export default function MyAppBar({ themeMode, toggleMode }: { themeMode: ThemeMo
                             </Button>
                         </>
                     }
-                </Toolbar>
+                </Container>
             </AppBar>
         </Box>
     );
