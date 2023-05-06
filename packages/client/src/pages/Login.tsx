@@ -2,6 +2,8 @@ import { LockOutlined as LockOutlinedIcon } from '@mui/icons-material';
 import { Avatar, Box, Button, Container, TextField, Typography } from "@mui/material";
 import { useState } from "react";
 import { Link } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import { setJWT } from '../utils/localStorage';
 import { useNavigate } from "react-router-dom";
 
 export default function Login() {
@@ -9,8 +11,28 @@ export default function Login() {
     const [password, setPassword] = useState("")
     const navigate = useNavigate()
 
-    function handleLogin() {
-        navigate('/')
+    async function handleLogin() {
+        try {
+            const res = await fetch('http://localhost:3300/api/users/login',
+                {
+                    method: 'post',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ email, password })
+                }
+            )
+            const resJSON = await res.json()
+            if (res.ok) {
+                setJWT(resJSON.token)
+                navigate('/')
+            } else {
+                toast('Wrong email or password')
+            }
+        } catch (error) {
+            toast('Wrong email or password');
+            console.log(error)
+        }
     }
     return (
         <Container component="main" maxWidth="xs">

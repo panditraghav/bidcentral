@@ -8,6 +8,8 @@ import NotFound from './pages/NotFound';
 import SignUp from './pages/SignUp';
 import { ThemeMode } from './utils/types';
 import Item from './pages/Item';
+import { getLocalTheme, setLocalTheme } from './utils/localStorage';
+import { ToastContainer } from 'react-toastify';
 
 
 function getTheme(mode: ThemeMode) {
@@ -22,7 +24,7 @@ export default function App() {
     const [mode, setMode] = useState<ThemeMode>('dark');
 
     useEffect(() => {
-        const localTheme = localStorage.getItem('theme')
+        const localTheme = getLocalTheme()
         if (localTheme) {
             if (localTheme === 'dark' || localTheme === 'light')
                 setMode(localTheme)
@@ -32,7 +34,7 @@ export default function App() {
     function toggleMode() {
         const newMode = mode === 'dark' ? 'light' : 'dark'
         setMode(newMode)
-        localStorage.setItem('theme', newMode)
+        setLocalTheme(newMode)
     }
 
 
@@ -51,6 +53,7 @@ export default function App() {
                             <Route path="*" element={<NotFound />} />
                         </Routes>
                     </BrowserRouter>
+                    <ToastContainer theme={getLocalTheme()} position='bottom-left' />
                 </>
             </ThemeProvider>
         </>
