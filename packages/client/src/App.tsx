@@ -5,6 +5,7 @@ import UserLayout from './layout/UserLayout';
 import { useEffect, useState } from 'react';
 import { ThemeMode, getLocalTheme, setLocalTheme, setThemeClassToBody, themeManager } from './utils';
 import { ThemeProvider } from './context/theme';
+import UserHomePage from './pages/Home';
 
 export default function App() {
     const [mode, setMode] = useState<ThemeMode>(themeManager.themeMode)
@@ -29,7 +30,7 @@ export default function App() {
                 <BrowserRouter>
                     <Routes>
                         <Route path="/" element={<UserLayout />} >
-                            <Route path="" element={<div>Home</div>} />
+                            <Route path="" element={<UserHomePage />} />
                             <Route path="item/:id" element={<div>Item</div>} />
                             <Route path="login" element={<div>Login</div>} />
                             <Route path="signup" element={<div>Signup</div>} />
