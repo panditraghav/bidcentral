@@ -31,7 +31,6 @@ export default function Login() {
             }
         } catch (error) {
             toast('Wrong email or password');
-            console.log(error)
         }
     }
     return (

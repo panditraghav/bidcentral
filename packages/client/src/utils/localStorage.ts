@@ -9,7 +9,7 @@ export function getJWT(): string | null {
     return localStorage.getItem(JWT_LOCALSTORAGE_KEY)
 }
 
-export function getLocalTheme(): 'dark' | 'light' {
+export function getLocalPaletteMode(): 'dark' | 'light' {
     const theme = localStorage.getItem('theme');
     if (theme === 'light' || theme === 'dark') {
         return theme;
@@ -17,6 +17,6 @@ export function getLocalTheme(): 'dark' | 'light' {
     return 'dark'
 }
 
-export function setLocalTheme(theme: 'dark' | 'light') {
+export function setLocalPaletteMode(theme: 'dark' | 'light') {
     localStorage.setItem('theme', theme)
 }
