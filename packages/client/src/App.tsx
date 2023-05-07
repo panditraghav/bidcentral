@@ -1,63 +1,46 @@
-import { CssBaseline, PaletteMode, ThemeProvider, createTheme } from '@mui/material';
-import { useEffect, useState } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import AdminLayout from './layout/AdminLayout';
 import UserLayout from './layout/UserLayout';
-import AdminHome from './pages/Admin/Home';
-import Home from './pages/Home';
-import Item from './pages/Item';
-import Login from './pages/Login';
-import NotFound from './pages/NotFound';
-import SignUp from './pages/SignUp';
-import { paletteModeManager } from './theme/manager';
-import { getLocalPaletteMode, setLocalPaletteMode } from './utils/localStorage';
-
-
-function getThemeOfMode(mode: PaletteMode) {
-    return createTheme({
-        palette: {
-            mode
-        }
-    })
-}
+import { useEffect, useState } from 'react';
+import { ThemeMode, getLocalTheme, setLocalTheme, setThemeClassToBody, themeManager } from './utils';
+import { ThemeProvider } from './context/theme';
 
 export default function App() {
-    const [mode, setMode] = useState<PaletteMode>('dark')
+    const [mode, setMode] = useState<ThemeMode>(themeManager.themeMode)
 
     useEffect(() => {
-        const localPaletteMode = getLocalPaletteMode()
+        const localTheme = getLocalTheme()
 
-        paletteModeManager.setCurrentMode(localPaletteMode)
-        setMode(localPaletteMode)
+        themeManager.setCurrentThemeMode(localTheme)
+        setThemeClassToBody(localTheme)
+        setMode(localTheme)
 
-        return paletteModeManager.on('toggle', (newMode) => {
+        return themeManager.on('toggle', (newMode) => {
             setMode(newMode)
-            setLocalPaletteMode(newMode)
+            setLocalTheme(newMode)
+            setThemeClassToBody(newMode)
         })
-    }, [])
+    })
 
     return (
         <>
-            <ThemeProvider theme={getThemeOfMode(mode)}>
-                <>
-                    <CssBaseline />
-                    <BrowserRouter>
-                        <Routes>
-                            <Route path="/" element={<UserLayout />} >
-                                <Route path="" element={<Home />} />
-                                <Route path="item/:id" element={<Item />} />
-                                <Route path="login" element={<Login />} />
-                                <Route path="signup" element={<SignUp />} />
-                            </Route>
-                            <Route path="/admin" element={<AdminLayout />} >
-                                <Route path="" element={<AdminHome />} />
-                            </Route>
-                            <Route path="*" element={<NotFound />} />
-                        </Routes>
-                    </BrowserRouter>
-                    <ToastContainer theme={getLocalPaletteMode()} position='bottom-left' />
-                </>
+            <ThemeProvider value={mode}>
+                <BrowserRouter>
+                    <Routes>
+                        <Route path="/" element={<UserLayout />} >
+                            <Route path="" element={<div>Home</div>} />
+                            <Route path="item/:id" element={<div>Item</div>} />
+                            <Route path="login" element={<div>Login</div>} />
+                            <Route path="signup" element={<div>Signup</div>} />
+                        </Route>
+                        <Route path="/admin" element={<AdminLayout />} >
+                            <Route path="" element={<div>Admin Home</div>} />
+                        </Route>
+                        <Route path="*" element={<div>Not found</div>} />
+                    </Routes>
+                </BrowserRouter>
+                <ToastContainer theme={'dark'} position='bottom-left' />
             </ThemeProvider>
         </>
     );

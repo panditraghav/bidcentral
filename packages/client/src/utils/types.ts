@@ -7,3 +7,5 @@ export type ItemType = {
     image: string;
     currentPrice: number;
 }
+
+export type ThemeMode = 'dark' | 'light'

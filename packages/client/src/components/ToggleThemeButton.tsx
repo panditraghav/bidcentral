@@ -1,18 +1,15 @@
-import { useTheme } from '@emotion/react';
-import DarkModeIcon from '@mui/icons-material/DarkMode';
-import LightModeIcon from '@mui/icons-material/LightMode';
-import { IconButton } from "@mui/material";
-import { paletteModeManager } from "../theme/manager";
+import { themeManager } from '@/utils';
+import { Moon, Sun } from 'lucide-react'
+import { useTheme } from '@/context/theme';
 
 export default function ToggleThemeButton() {
     const theme = useTheme()
-    return (
 
-        <IconButton onClick={() => paletteModeManager.toggleMode()}>
+    return (
+        <button onClick={() => themeManager.toggleMode()}>
             {
-                //@ts-ignore
-                theme.palette.mode === 'dark' ? <LightModeIcon /> : <DarkModeIcon />
+                theme === 'dark' ? <Sun /> : <Moon />
             }
-        </IconButton>
+        </button>
     )
 }
