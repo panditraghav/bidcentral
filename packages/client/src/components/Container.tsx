@@ -1,17 +1,21 @@
 import { cn } from "@/utils"
+import { HTMLMotionProps, motion } from "framer-motion";
 import React from "react"
 
 const Container = React.forwardRef<
     HTMLDivElement,
-    React.HTMLAttributes<HTMLDivElement>
+    HTMLMotionProps<'div'>
 >(({ className, children, ...props }, ref) => (
-    <div
+    <motion.div
         ref={ref}
-        className={cn("md:mx-auto md:w-5/6 lg:mx-auto lg:w-8/12 mx-4", className)}
+        initial={{ x: -30, opacity: 0 }}
+        animate={{ x: 0, opacity: 1 }}
+        exit={{ x: 30, opacity: 0 }}
+        className={cn("md:mx-auto md:w-3/4 lg:mx-auto lg:w-8/12 mx-4", className)}
         {...props}
     >
         {children}
-    </div>
+    </motion.div>
 ))
 Container.displayName = 'Container';
 export default Container;

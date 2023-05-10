@@ -8,6 +8,8 @@ import UserLayout from '@/layout/UserLayout';
 import UserHomePage from '@/pages/Home';
 import LoginPage from '@/pages/Login';
 import RegisterPage from '@/pages/Register';
+import ItemPage from './pages/Item';
+import { AnimatePresence } from 'framer-motion';
 
 const queryClient = new QueryClient()
 
@@ -17,20 +19,22 @@ export default function App() {
             <QueryClientProvider client={queryClient}>
                 <UserProvider>
                     <ThemeProvider>
-                        <BrowserRouter>
-                            <Routes>
-                                <Route path="/" element={<UserLayout />} >
-                                    <Route path="" element={<UserHomePage />} />
-                                    <Route path="item/:id" element={<div>Item</div>} />
-                                    <Route path="login" element={<LoginPage />} />
-                                    <Route path="register" element={<RegisterPage />} />
-                                </Route>
-                                <Route path="/admin" element={<AdminLayout />} >
-                                    <Route path="" element={<div>Admin Home</div>} />
-                                </Route>
-                                <Route path="*" element={<div>Not found</div>} />
-                            </Routes>
-                        </BrowserRouter>
+                        <AnimatePresence>
+                            <BrowserRouter>
+                                <Routes>
+                                    <Route path="/" element={<UserLayout />} >
+                                        <Route path="" element={<UserHomePage />} />
+                                        <Route path="item/:id" element={<ItemPage />} />
+                                        <Route path="login" element={<LoginPage />} />
+                                        <Route path="register" element={<RegisterPage />} />
+                                    </Route>
+                                    <Route path="/admin" element={<AdminLayout />} >
+                                        <Route path="" element={<div>Admin Home</div>} />
+                                    </Route>
+                                    <Route path="*" element={<div>Not found</div>} />
+                                </Routes>
+                            </BrowserRouter>
+                        </AnimatePresence>
                         <ToastContainer theme={'dark'} position='bottom-left' />
                     </ThemeProvider>
                 </UserProvider>
