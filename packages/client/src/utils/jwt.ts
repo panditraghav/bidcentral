@@ -9,3 +9,6 @@ export function getJWT(): string | null {
     return localStorage.getItem(JWT_LOCALSTORAGE_KEY)
 }
 
+export function removeJWT() {
+    localStorage.removeItem(JWT_LOCALSTORAGE_KEY)
+}

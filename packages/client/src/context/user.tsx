@@ -11,7 +11,9 @@ export const UserContext = createContext<UserContextValue>(null)
 export function UserProvider({ children }: { children: React.ReactNode }) {
     const [user, setUser] = useState<UserContextValue>(null)
     const { data, error } = useQuery({
-        queryKey: ['user'], queryFn: () => fetch(`${SERVER_URL}/users/auth`,
+        queryKey: ['user'],
+        queryFn: () => fetch(
+            `${SERVER_URL}/users/auth`,
             {
                 headers: {
                     ...getAuthHeaders()

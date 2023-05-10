@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/Button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/Card";
 import { Input } from "@/components/ui/Input";
+import { setJWT } from "@/utils";
 import { SERVER_URL } from "@/utils/url";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
@@ -17,10 +18,15 @@ export default function LoginPage() {
 
     const mutation = useMutation({
         mutationFn: postLogin,
-        onSuccess: () => {
+        onSuccess: (data) => {
             // Invalidate and refetch
             queryClient.invalidateQueries({ queryKey: ['user'] })
-            navigate('/')
+            if (data.token) {
+                setJWT(data.token)
+                navigate('/')
+            } else {
+                toast('Some error occured', { type: 'error' })
+            }
         },
         onError: () => {
             toast('Invalid username or password', { type: 'error' })
