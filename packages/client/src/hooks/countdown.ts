@@ -9,6 +9,14 @@ export type CountDown = {
 export function getCountdown(endDate: Date): CountDown {
     const endDateTime = endDate.getTime()
     const now = Date.now()
+
+    if (endDateTime < now) return {
+        days: 0,
+        hours: 0,
+        minutes: 0,
+        seconds: 0,
+    }
+
     const dist = endDateTime - now
     const msInDay = 1000 * 60 * 60 * 24
     const msInHour = 1000 * 60 * 60
