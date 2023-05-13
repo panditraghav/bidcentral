@@ -6,7 +6,7 @@ import { useUser } from "@/context/user";
 import UserMenu from "./UserMenu";
 
 export default function UserNavbar() {
-    const user = useUser()
+    const { user, isLoading } = useUser()
 
     return (
         <nav className="w-full sticky py-3 top-0 left-0 z-40 bg-background">
@@ -15,8 +15,9 @@ export default function UserNavbar() {
                     <h1 className="text-xl font-medium"><Link to="/">BidMaker</Link></h1>
                     <div className="flex items-center space-x-3">
                         <ToggleThemeButton />
+                        {isLoading ? 'Loading...' : ''}
                         {
-                            user?.userId ?
+                            user?.userId && !isLoading ?
                                 <UserMenu />
                                 : (
                                     <>
