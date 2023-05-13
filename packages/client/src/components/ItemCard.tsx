@@ -10,6 +10,8 @@ import { motion } from "framer-motion";
 export default function ItemCard({ item }: { item: ItemType }) {
     const countdown = useCountdown(item.endDate)
 
+    const isEnded = countdown.days === 0 && countdown.hours === 0 && countdown.minutes === 0 && countdown.seconds === 0;
+
     return (
         <Card className="w-64 mx-2">
             <AspectRatio ratio={1.5}>
@@ -27,7 +29,21 @@ export default function ItemCard({ item }: { item: ItemType }) {
                     className="text-sm"
                     key={countdown.hours}
                 >
-                    Ends in {countdown.days} days {countdown.hours}hr {countdown.minutes}min {countdown.seconds}s
+                    <span>
+                        {isEnded ? 'Deal Ended ' : 'Ends in '}
+                    </span>
+                    <span>
+                        {countdown.days > 0 ? countdown.days + ' days ' : ''}
+                    </span>
+                    <span>
+                        {countdown.hours > 0 ? countdown.hours + 'hr ' : ''}
+                    </span>
+                    <span>
+                        {countdown.minutes > 0 ? countdown.minutes + 'min ' : ''}
+                    </span>
+                    <span>
+                        {countdown.seconds > 0 ? countdown.seconds + 's' : ''}
+                    </span>
                 </motion.div>
             </CardContent>
             <CardFooter>
