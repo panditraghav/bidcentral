@@ -6,11 +6,11 @@ export type CountDown = {
     minutes: number;
     seconds: number;
 }
-export function getCountdown(endDate: Date): CountDown {
-    const endDateTime = endDate.getTime()
+export function getCountdown(endDate?: Date): CountDown {
+    const endDateTime = endDate?.getTime() || Date.now()
     const now = Date.now()
 
-    if (endDateTime < now) return {
+    if (!endDate || endDateTime < now) return {
         days: 0,
         hours: 0,
         minutes: 0,
@@ -32,7 +32,7 @@ export function getCountdown(endDate: Date): CountDown {
 }
 
 
-export function useCountdown(endDate: Date) {
+export function useCountdown(endDate?: Date) {
     const [countDown, setCountDown] = useState<CountDown>({ days: 0, hours: 0, minutes: 0, seconds: 0 })
 
     function tick() {

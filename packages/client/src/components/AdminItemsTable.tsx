@@ -1,6 +1,6 @@
 import { ItemType } from "@/utils";
-import { InfoIcon } from 'lucide-react'
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "./ui/Table";
+import { Table, TableBody, TableHead, TableHeader, TableRow } from "./ui/Table";
+import { AdminItemsTableRow } from "./AdminItemsTableRow";
 
 export default function AdminItemsTable({ items }: { items: ItemType[] }) {
     return (
@@ -16,12 +16,7 @@ export default function AdminItemsTable({ items }: { items: ItemType[] }) {
             <TableBody>
                 {items.map(item => {
                     return (
-                        <TableRow key={item._id}>
-                            <TableCell>{item.name}</TableCell>
-                            <TableCell>{item.price}</TableCell>
-                            <TableCell>1 days 2hr 10min 22sec</TableCell>
-                            <TableCell><InfoIcon /></TableCell>
-                        </TableRow>
+                        <AdminItemsTableRow item={item} key={item._id} />
                     )
                 })}
             </TableBody>

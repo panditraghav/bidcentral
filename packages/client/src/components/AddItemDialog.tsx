@@ -10,7 +10,7 @@ import { getAuthHeaders } from "@/utils/headers";
 
 function isValidInput({ name, endDate, description, imageURL, price }: {
     name: string;
-    endDate: Date;
+    endDate?: Date;
     description: string;
     price: number | undefined;
     imageURL: string;
@@ -19,7 +19,7 @@ function isValidInput({ name, endDate, description, imageURL, price }: {
     if (name === '' || description === '' || imageURL === '') isValid = false;
     if (!price || price < 0) isValid = false;
 
-    if (endDate.getTime() < Date.now()) isValid = false;
+    if (endDate && endDate.getTime() < Date.now()) isValid = false;
 
     return isValid;
 }
@@ -34,7 +34,7 @@ export default function AddItemDialog({
     const [name, setName] = useState('')
     const [description, setDescription] = useState('')
     const [price, setPrice] = useState<number>(0)
-    const [endDate, setEndDate] = useState<Date>(new Date())
+    const [endDate, setEndDate] = useState<Date>()
     const [imageURL, setImageURL] = useState('')
 
     const [hr, setHr] = useState<number>(0)
@@ -62,6 +62,7 @@ export default function AddItemDialog({
             if (res.ok) {
                 toast("Item added", { type: 'success' })
                 onOpenChange(false)
+                location.reload()
             } else {
                 toast("Some error occured", { type: 'error' })
             }
@@ -69,15 +70,15 @@ export default function AddItemDialog({
     }
 
     useEffect(() => {
-        const updatedEndDate = new Date(endDate.getTime())
+        const updatedEndDate = new Date(endDate?.getTime() || Date.now())
         if (hr) {
-            endDate.setHours(hr)
+            updatedEndDate?.setHours(hr)
         }
         if (min) {
-            endDate.setMinutes(min)
+            updatedEndDate?.setMinutes(min)
         }
         if (sec) {
-            endDate.setSeconds(sec)
+            updatedEndDate?.setSeconds(sec)
         }
         setEndDate(updatedEndDate)
     }, [hr, min, sec])

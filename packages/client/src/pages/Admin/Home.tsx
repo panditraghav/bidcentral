@@ -36,9 +36,6 @@ export default function AdminHomePage() {
                 </Button>
             </div>
             {isItemsLoading && <span>Items Loading....</span>}
-            {/* {items && items.docs.map(item => { */}
-            {/*     return <span key={item.name}>{item.name}</span> */}
-            {/* })} */}
             {items?.docs && <AdminItemsTable items={items.docs} />}
             <AddItemDialog open={dialogOpen} onOpenChange={(o) => setDialogOpen(o)} />
         </Container>
