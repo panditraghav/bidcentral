@@ -1,4 +1,5 @@
 import AddItemDialog from "@/components/AddItemDialog";
+import AdminItemsTable from "@/components/AdminItemsTable";
 import Container from "@/components/Container";
 import { Button } from "@/components/ui/Button";
 import { useUser } from "@/context/user";
@@ -35,9 +36,10 @@ export default function AdminHomePage() {
                 </Button>
             </div>
             {isItemsLoading && <span>Items Loading....</span>}
-            {items && items.docs.map(item => {
-                return <span key={item.name}>{item.name}</span>
-            })}
+            {/* {items && items.docs.map(item => { */}
+            {/*     return <span key={item.name}>{item.name}</span> */}
+            {/* })} */}
+            {items?.docs && <AdminItemsTable items={items.docs} />}
             <AddItemDialog open={dialogOpen} onOpenChange={(o) => setDialogOpen(o)} />
         </Container>
     )

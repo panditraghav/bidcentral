@@ -46,6 +46,7 @@ export default function ItemPage() {
                     amount: newBid
                 }),
                 headers: {
+                    'Content-Type': 'application/json',
                     ...getAuthHeaders()
                 }
             })

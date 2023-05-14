@@ -1,10 +1,28 @@
 import { Button } from "@/components/ui/Button";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/Dialog";
 import { Input } from "@/components/ui/Input";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { DatePicker } from "./DatePicker";
 import TimePicker from "./TimePicker";
+import { toast } from "react-toastify";
+import { SERVER_URL } from "@/utils/url";
+import { getAuthHeaders } from "@/utils/headers";
 
+function isValidInput({ name, endDate, description, imageURL, price }: {
+    name: string;
+    endDate: Date;
+    description: string;
+    price: number | undefined;
+    imageURL: string;
+}): boolean {
+    let isValid = true;
+    if (name === '' || description === '' || imageURL === '') isValid = false;
+    if (!price || price < 0) isValid = false;
+
+    if (endDate.getTime() < Date.now()) isValid = false;
+
+    return isValid;
+}
 
 export default function AddItemDialog({
     open,
@@ -14,17 +32,55 @@ export default function AddItemDialog({
     onOpenChange: (open: boolean) => void
 }) {
     const [name, setName] = useState('')
-    const [endDate, setEndDate] = useState<Date>()
     const [description, setDescription] = useState('')
+    const [price, setPrice] = useState<number>(0)
+    const [endDate, setEndDate] = useState<Date>(new Date())
     const [imageURL, setImageURL] = useState('')
+
     const [hr, setHr] = useState<number>(0)
     const [min, setMin] = useState<number>(0)
     const [sec, setSec] = useState<number>(0)
 
     async function onAdd() {
-        console.log({ name, endDate, description, imageURL, hr, min, sec })
-        onOpenChange(false)
+        if (!isValidInput({ name, description, imageURL, endDate, price })) {
+            toast("Invalid input", { type: 'error' })
+        } else {
+            const res = await fetch(`${SERVER_URL}/assets`, {
+                method: 'post',
+                body: JSON.stringify({
+                    name,
+                    description,
+                    image: imageURL,
+                    price,
+                    endDate,
+                }),
+                headers: {
+                    'Content-Type': 'application/json',
+                    ...getAuthHeaders()
+                }
+            })
+            if (res.ok) {
+                toast("Item added", { type: 'success' })
+                onOpenChange(false)
+            } else {
+                toast("Some error occured", { type: 'error' })
+            }
+        }
     }
+
+    useEffect(() => {
+        const updatedEndDate = new Date(endDate.getTime())
+        if (hr) {
+            endDate.setHours(hr)
+        }
+        if (min) {
+            endDate.setMinutes(min)
+        }
+        if (sec) {
+            endDate.setSeconds(sec)
+        }
+        setEndDate(updatedEndDate)
+    }, [hr, min, sec])
 
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
@@ -44,6 +100,12 @@ export default function AddItemDialog({
                             placeholder="Description"
                             value={description}
                             onChange={(e) => setDescription(e.target.value)}
+                        />
+                        <Input
+                            placeholder="Price"
+                            type="number"
+                            value={price}
+                            onChange={(e) => setPrice(e.target.valueAsNumber)}
                         />
                         <Input
                             placeholder="Image URL"
