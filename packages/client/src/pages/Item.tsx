@@ -2,10 +2,13 @@ import Container from "@/components/Container";
 import { Button } from "@/components/ui/Button";
 import { ItemType } from "@/utils";
 import { getItemsBySlug } from "@/utils/api";
+import { getAuthHeaders } from "@/utils/headers";
+import { SERVER_URL } from "@/utils/url";
 import { motion } from "framer-motion";
 import { MinusIcon, PlusIcon } from 'lucide-react';
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { toast } from "react-toastify";
 
 export default function ItemPage() {
     const [highestBid, setHighestBid] = useState<number>(0)
@@ -34,6 +37,29 @@ export default function ItemPage() {
         return <Container>Not found..</Container>
     }
 
+    async function bid() {
+        try {
+            const res = await fetch(`${SERVER_URL}/bid`, {
+                method: 'post',
+                body: JSON.stringify({
+                    asset: item?._id,
+                    amount: newBid
+                }),
+                headers: {
+                    ...getAuthHeaders()
+                }
+            })
+            if (res.ok) {
+                toast('Bid successful', { type: 'success' })
+                setHighestBid(newBid)
+            } else {
+                toast('Some error occured!', { type: 'error' })
+            }
+        } catch (error) {
+            toast('Some error occured!', { type: 'error' })
+        }
+    }
+
     return (
         <Container>
             <img src={item.image} alt={item.name} />
@@ -50,7 +76,7 @@ export default function ItemPage() {
                         >
                             <span className="font-medium">Highest bid:- </span>
                             <span>
-                                {highestBid / 100} Rs
+                                {highestBid} Rs
                             </span>
                         </motion.div>
                     </div>
@@ -58,7 +84,7 @@ export default function ItemPage() {
                         <Button variant="link">
                             <MinusIcon />
                         </Button>
-                        <Button onClick={() => setHighestBid(newBid)}>Bid {newBid / 100} Rs</Button>
+                        <Button onClick={bid}>Bid {newBid} Rs</Button>
                         <Button variant="link">
                             <PlusIcon />
                         </Button>
