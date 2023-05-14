@@ -39,7 +39,7 @@ export default function ItemPage() {
 
     async function bid() {
         try {
-            const res = await fetch(`${SERVER_URL}/bid`, {
+            const res = await fetch(`${SERVER_URL}/bids`, {
                 method: 'post',
                 body: JSON.stringify({
                     asset: item?._id,
