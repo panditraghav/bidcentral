@@ -11,5 +11,10 @@
     "workspaces": [
         "./packages/client",
         "./packages/server"
-    ]
+    ],
+    "dependencies": {
+        "@radix-ui/react-popover": "^1.0.5",
+        "date-fns": "^2.30.0",
+        "react-day-picker": "^8.7.1"
+    }
 }

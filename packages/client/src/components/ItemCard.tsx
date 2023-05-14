@@ -8,7 +8,7 @@ import { motion } from "framer-motion";
 
 
 export default function ItemCard({ item }: { item: ItemType }) {
-    const countdown = useCountdown(item.endDate)
+    const countdown = useCountdown(item.bidCloseAt)
 
     const isEnded = countdown.days === 0 && countdown.hours === 0 && countdown.minutes === 0 && countdown.seconds === 0;
 
@@ -48,7 +48,7 @@ export default function ItemCard({ item }: { item: ItemType }) {
             </CardContent>
             <CardFooter>
                 <Button variant="outline" asChild>
-                    <Link to={`/item/${item.id}`}>View</Link>
+                    <Link to={`/item/${item.slug}`}>View</Link>
                 </Button>
             </CardFooter>
         </Card>

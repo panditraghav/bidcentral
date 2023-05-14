@@ -1,13 +1,19 @@
+import AddItemDialog from "@/components/AddItemDialog";
 import Container from "@/components/Container";
-import { useNavigate } from "react-router-dom";
+import { Button } from "@/components/ui/Button";
 import { useUser } from "@/context/user";
+import { getAllItems } from "@/utils/api";
+import { useQuery } from "@tanstack/react-query";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function AdminHomePage() {
     const navigate = useNavigate()
-    const { user, isLoading, error } = useUser()
+    const { user, isLoading: isUserLoading, error } = useUser()
+    const { data: items, isLoading: isItemsLoading } = useQuery({ queryFn: getAllItems, queryKey: ['all-items'] })
+    const [dialogOpen, setDialogOpen] = useState(false)
 
-    console.log(user, isLoading, error)
-    if (isLoading) {
+    if (isUserLoading) {
         return <Container>Loading....</Container>
     }
     if (error) {
@@ -19,7 +25,20 @@ export default function AdminHomePage() {
     }
     return (
         <Container >
-            <h1>Admin Home </h1>
+            <div className="flex justify-between">
+                <h1 className="font-medium text-lg">Items </h1>
+                <Button
+                    variant="outline"
+                    onClick={() => setDialogOpen(true)}
+                >
+                    New Item
+                </Button>
+            </div>
+            {isItemsLoading && <span>Items Loading....</span>}
+            {items && items.docs.map(item => {
+                return <span key={item.name}>{item.name}</span>
+            })}
+            <AddItemDialog open={dialogOpen} onOpenChange={(o) => setDialogOpen(o)} />
         </Container>
     )
 }

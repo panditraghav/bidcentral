@@ -1,7 +1,7 @@
 import Container from "@/components/Container";
 import { Button } from "@/components/ui/Button";
 import { ItemType } from "@/utils";
-import { getItemsById } from "@/utils/api";
+import { getItemsBySlug } from "@/utils/api";
 import { motion } from "framer-motion";
 import { MinusIcon, PlusIcon } from 'lucide-react';
 import { useEffect, useState } from "react";
@@ -10,14 +10,15 @@ import { useParams } from "react-router-dom";
 export default function ItemPage() {
     const [highestBid, setHighestBid] = useState<number>(0)
     const [newBid, setNewBid] = useState<number>(0)
-    const [item, setItem] = useState<ItemType | undefined>()
-    const { id } = useParams()
+    const [item, setItem] = useState<ItemType | null>(null)
+    const { id: slug } = useParams()
     useEffect(() => {
         async function getAndSetItem() {
-            const item = await getItemsById({ id: id || '' })
+            const item = await getItemsBySlug({ slug })
+            console.log(item)
             setItem(item)
             if (item) {
-                setHighestBid(item.currentPrice)
+                setHighestBid(item.price)
             }
         }
         getAndSetItem()

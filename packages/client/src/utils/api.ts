@@ -1,8 +1,13 @@
-import { items } from ".";
-export async function getAllItems() {
-    return items
+import { AllItemResponse, ItemType } from ".";
+import { SERVER_URL } from "./url";
+
+export async function getItemsBySlug({ slug }: { slug?: string }) {
+    if (!slug) return null;
+    const { doc: data } = await fetch(`${SERVER_URL}/assets/${slug}`).then(res => res.json()) as { doc: ItemType }
+    return data;
 }
 
-export async function getItemsById({ id }: { id: string }) {
-    return items.find((i) => i.id === id)
+export async function getAllItems() {
+    const data = await fetch(`${SERVER_URL}/assets`).then(res => res.json()) as AllItemResponse
+    return data
 }

@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const slugifiy = require("slugify");
 
 const assetSchema = mongoose.Schema({
-  title: String,
+  name: String,
   slug: String,
   description: String,
   price: Number,
@@ -22,7 +22,7 @@ const assetSchema = mongoose.Schema({
 });
 
 assetSchema.pre("save", function (next) {
-  this.slug = slugifiy(this.title, { lower: true });
+  this.slug = slugifiy(this.name, { lower: true });
   next();
 });
 

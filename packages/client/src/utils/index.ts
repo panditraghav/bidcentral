@@ -1,5 +1,4 @@
 export * from './cn'
 export * from './jwt'
-export * from './testData'
 export * from './types'
 export * from './theme'
