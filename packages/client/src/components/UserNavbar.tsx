@@ -9,8 +9,8 @@ export default function UserNavbar() {
     const { user, isLoading } = useUser()
 
     return (
-        <nav className="w-full sticky py-3 top-0 left-0 z-40 bg-background">
-            <Container>
+        <nav className="w-full sticky py-3 flex justify-center top-0 left-0 bg-background">
+            <Container className="w-full">
                 <div className="flex items-center w-full justify-between items-center">
                     <h1 className="text-xl font-medium"><Link to="/">BidMaker</Link></h1>
                     <div className="flex items-center space-x-3">

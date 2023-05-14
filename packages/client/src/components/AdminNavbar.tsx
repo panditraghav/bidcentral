@@ -6,7 +6,7 @@ export default function AdminNavbar() {
 
     return (
         <nav className="w-full sticky py-3 flex justify-center top-0 left-0 bg-background">
-            <Container>
+            <Container className="w-full">
                 <div className="flex justify-between items-center">
                     <h1 className="text-xl font-medium">
                         <Link to="/admin">
