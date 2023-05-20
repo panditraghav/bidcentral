@@ -54,7 +54,7 @@ export default function LoginPage() {
             <Card className="w-72">
                 <CardHeader>
                     <CardTitle>Login</CardTitle>
-                    <CardDescription>Login to BidMaker</CardDescription>
+                    <CardDescription>Login to BidCentral</CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-4">
                     <Input

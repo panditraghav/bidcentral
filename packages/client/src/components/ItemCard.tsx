@@ -13,9 +13,9 @@ export default function ItemCard({ item }: { item: ItemType }) {
     const isEnded = countdown.days === 0 && countdown.hours === 0 && countdown.minutes === 0 && countdown.seconds === 0;
 
     return (
-        <Card className="w-64 mx-2">
-            <AspectRatio ratio={1.5}>
-                <CardImage src={item.image} className="mb-2" />
+        <Card className="w-72 mx-2">
+            <AspectRatio ratio={1.5} className="relative">
+                <CardImage src={item.image} className="mb-2 object-cover w-full h-full" />
             </AspectRatio >
             <CardHeader>
                 <CardTitle className="">{item.name}</CardTitle>

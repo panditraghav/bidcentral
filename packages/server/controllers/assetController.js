@@ -132,8 +132,6 @@ exports.createBid = async (req, res) => {
     const assetId = req.body.asset;
     const amount = req.body.amount;
 
-    const asset = await Asset.findOne({id: assetId})
-
     // update the values of the bids(array) with user(slug) and amount
     const body = {
       user: user.slug,
@@ -144,20 +142,28 @@ exports.createBid = async (req, res) => {
 
     updatedObj.bids = body;
 
-    await Asset.findById(assetId);
+    const asset = await Asset.findById(assetId);
 
-    if(asset.bids.findIndex((bid)=> bid.user === user.slug) !== -1){
-        await Asset.updateOne(
-            { id: assetId , "bids.user": user.slug},
-            { "bids.$.amount": amount, $set: { currentBid: amount } }
-        );
+    const userBidIndex = asset.bids.findIndex((bid)=>{
+        return bid.user === user.slug
+    })
+
+    // If user have already made a bid update that bid with new amount else make a new bid
+    if(userBidIndex !== -1){
+        // console.log(await Asset.updateOne(
+        //     { id: assetId , "bids.user": user.slug},
+        //     { "bids.$.amount": amount, $set: { currentBid: amount } }
+        // ));
+        asset.bids[userBidIndex].amount = amount
     }else{
-        await Asset.updateOne(
-            { id: assetId },
-            { $push: updatedObj, $set: { currentBid: amount } }
-        );
+        asset.bids.push(body)
+        // console.log(await Asset.updateOne(
+        //     { id: assetId },
+        //     { $push: updatedObj, $set: { currentBid: amount } }
+        // ));
     }
-
+    asset.currentBid = amount
+    await asset.save()
     res.send("done");
   } catch (err) {
     console.log(err.message);

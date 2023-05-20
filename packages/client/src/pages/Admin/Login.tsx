@@ -52,7 +52,7 @@ export default function LoginPage() {
             <Card className="w-72">
                 <CardHeader>
                     <CardTitle>Admin Login</CardTitle>
-                    <CardDescription>Login to BidMaker Admin</CardDescription>
+                    <CardDescription>Login to BidCentral Admin</CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-4">
                     <Input

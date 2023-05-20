@@ -80,6 +80,7 @@ exports.protect = async (req, res, next) => {
     }
 
     if (!token) {
+      res.status(401).send()
       return next(
         new Error("You are not logged in, please login to get access")
       );
@@ -92,6 +93,7 @@ exports.protect = async (req, res, next) => {
     // check if user exists
     const currentUser = await User.findById(decoded.id);
     if (!currentUser) {
+      res.status(401).send()
       return next(new Error("User does not exist"));
     }
 

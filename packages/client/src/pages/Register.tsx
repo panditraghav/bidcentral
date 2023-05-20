@@ -9,7 +9,7 @@ export default function RegisterPage() {
             <Card className="w-72">
                 <CardHeader>
                     <CardTitle>Register</CardTitle>
-                    <CardDescription>Register for BidMaker</CardDescription>
+                    <CardDescription>Register for BidCentral</CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-4">
                     <Input placeholder="Email" type="email" />

@@ -7,7 +7,8 @@ export type ItemType = {
     price: number;
     bidOpenAt: Date;
     bidCloseAt: Date;
-    bids: [];
+    currentBid: number;
+    bids: Bid[];
 }
 
 export type AllItemResponse = {
@@ -17,3 +18,9 @@ export type AllItemResponse = {
 }
 
 export type ThemeMode = 'dark' | 'light'
+
+export type Bid = {
+    user: string;
+    _id: string;
+    amount: number;
+}

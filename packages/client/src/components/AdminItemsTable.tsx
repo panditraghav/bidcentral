@@ -1,6 +1,8 @@
 import { ItemType } from "@/utils";
-import { Table, TableBody, TableHead, TableHeader, TableRow } from "./ui/Table";
-import { AdminItemsTableRow } from "./AdminItemsTableRow";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "./ui/Table";
+import { InfoIcon } from "lucide-react";
+import { useCountdown } from "@/hooks/countdown";
+
 
 export default function AdminItemsTable({ items }: { items: ItemType[] }) {
     return (
@@ -21,5 +23,31 @@ export default function AdminItemsTable({ items }: { items: ItemType[] }) {
                 })}
             </TableBody>
         </Table>
+    )
+}
+
+function AdminItemsTableRow({ item }: { item: ItemType }) {
+    const countdown = useCountdown(item.bidCloseAt)
+
+    return (
+        <TableRow>
+            <TableCell>{item.name}</TableCell>
+            <TableCell>{item.price}</TableCell>
+            <TableCell>
+                <span>
+                    {countdown?.days > 0 ? countdown.days + ' days ' : ''}
+                </span>
+                <span>
+                    {countdown?.hours > 0 ? countdown.hours + 'hr ' : ''}
+                </span>
+                <span>
+                    {countdown?.minutes > 0 ? countdown.minutes + 'min ' : ''}
+                </span>
+                <span>
+                    {countdown.seconds > 0 ? countdown.seconds + 's' : ''}
+                </span>
+            </TableCell>
+            <TableCell><InfoIcon /></TableCell>
+        </TableRow>
     )
 }

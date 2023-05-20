@@ -1,1 +1,1 @@
-export const SERVER_URL = 'http://localhost:3300/api';
+export const SERVER_URL = 'http://192.168.19.193:3200/api';

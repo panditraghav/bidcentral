@@ -11,7 +11,7 @@ const Container = React.forwardRef<
         initial={{ x: -30, opacity: 0 }}
         animate={{ x: 0, opacity: 1 }}
         exit={{ x: 30, opacity: 0 }}
-        className={cn("md:mx-auto md:w-3/4 lg:mx-auto lg:w-8/12 mx-4", className)}
+        className={cn("md:mx-8 mx-4", className)}
         {...props}
     >
         {children}

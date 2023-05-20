@@ -10,7 +10,7 @@ export default function AdminNavbar() {
                 <div className="flex justify-between items-center">
                     <h1 className="text-xl font-medium">
                         <Link to="/admin">
-                            BidMaker Admin
+                            BidCentral Admin
                         </Link>
                     </h1>
                     <ToggleThemeButton />

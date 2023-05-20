@@ -8,7 +8,7 @@ export default function UserHomePage() {
 
     return (
         <Container className="my-8">
-            <div className="flex space-y-3 flex-wrap justify-start">
+            <div className="flex space-y-3 flex-wrap justify-center">
                 {isLoading && <span>Loading ...</span>}
                 {!isLoading && items && items.docs.map((item) => {
                     return < ItemCard item={item} key={item._id} />
