@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const validator = require("validator");
+const slugify = require("slugify");
 // const bcrypt = require("bcryptjs");
 
 const userSchema = mongoose.Schema({
@@ -24,6 +25,7 @@ const userSchema = mongoose.Schema({
     maxLength: 12,
     select: false,
   },
+  photo: String,
 
   role: {
     type: String,
@@ -42,10 +44,19 @@ const userSchema = mongoose.Schema({
   updatedAt: {
     type: Date,
   },
+
+  bids: [
+    {
+      asset: String,
+      amount: Number,
+    },
+  ],
 });
 
-userSchema.pre("save", (next) => {
-  this.slug = slugifiy(this.name, { lower: true });
+userSchema.pre("save", function (next) {
+  // console.log(this);
+  this.slug = slugify(this.name, { lower: true });
+  next();
 });
 
 // // Using a pre 'save' middleware to encrypt password before saving

@@ -6,8 +6,10 @@ const router = express.Router();
 ////////////////////////////////////////////////////////////
 // This is non-protected route, so that anyone with credentials can login
 router.post("/login", authController.login);
+router.post("/signup", authController.signup);
 
-router.get('/auth',authController.protect,(req,res)=> res.json({userId: req.user.id, role: req.user.role}))
+// router.get('/auth',authController.protect,(req,res)=> res.json({userId: req.user.id, role: req.user.role}))
+router.get("/logout", authController.logout);
 
 router
   .route("/")

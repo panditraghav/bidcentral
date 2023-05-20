@@ -23,7 +23,7 @@ exports.createDocument = (Model) => {
   };
 };
 
-exports.getDocument = (Model) => {
+exports.getDocument = (Model, popOptions) => {
   return async (req, res) => {
     // If user wants only limited information,
     // he should query those fields with the request
