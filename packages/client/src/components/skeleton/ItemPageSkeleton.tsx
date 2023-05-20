@@ -1,8 +1,8 @@
-import Container from "./Container";
+import Container from "../Container";
 import { AspectRatio } from "@/components/ui/AspectRatio";
-import { Skeleton } from "./ui/Skeleton";
+import { Skeleton } from "../ui/Skeleton";
 
-export default function ItemPageLoading() {
+export default function ItemPageSkeleton() {
     return (
         <Container>
             <div className="flex w-full md:flex-row flex-col">

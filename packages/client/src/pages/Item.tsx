@@ -1,6 +1,6 @@
 import Container from "@/components/Container";
-import ItemPageLoading from "@/components/ItemPageLoading";
 import TopBidsTable from "@/components/TopBidsTable";
+import ItemPageSkeleton from "@/components/skeleton/ItemPageSkeleton";
 import { AspectRatio } from "@/components/ui/AspectRatio";
 import { Button } from "@/components/ui/Button";
 import { getItemsBySlug } from "@/utils/api";
@@ -42,7 +42,7 @@ export default function ItemPage() {
     }, [nextBidAddition, highestBid])
 
     if (isLoading) {
-        return <ItemPageLoading />
+        return <ItemPageSkeleton />
     }
 
     if (isError) {
