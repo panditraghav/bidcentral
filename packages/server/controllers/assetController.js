@@ -132,25 +132,31 @@ exports.createBid = async (req, res) => {
     const assetId = req.body.asset;
     const amount = req.body.amount;
 
+    const asset = await Asset.findOne({id: assetId})
+
     // update the values of the bids(array) with user(slug) and amount
     const body = {
       user: user.slug,
       amount,
     };
 
-    console.log(body);
     const updatedObj = {};
 
     updatedObj.bids = body;
-    console.log(updatedObj);
 
-    const doc = await Asset.findById(assetId);
-    console.log(doc);
+    await Asset.findById(assetId);
 
-    await Asset.updateOne(
-      { id: assetId },
-      { $push: updatedObj, $set: { currentBid: amount } }
-    );
+    if(asset.bids.findIndex((bid)=> bid.user === user.slug) !== -1){
+        await Asset.updateOne(
+            { id: assetId , "bids.user": user.slug},
+            { "bids.$.amount": amount, $set: { currentBid: amount } }
+        );
+    }else{
+        await Asset.updateOne(
+            { id: assetId },
+            { $push: updatedObj, $set: { currentBid: amount } }
+        );
+    }
 
     res.send("done");
   } catch (err) {

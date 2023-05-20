@@ -8,7 +8,7 @@ const router = express.Router();
 router.post("/login", authController.login);
 router.post("/signup", authController.signup);
 
-// router.get('/auth',authController.protect,(req,res)=> res.json({userId: req.user.id, role: req.user.role}))
+router.get('/auth',authController.protect,(req,res)=> res.json({userId: req.user.id, role: req.user.role}))
 router.get("/logout", authController.logout);
 
 router

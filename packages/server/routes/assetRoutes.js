@@ -9,7 +9,7 @@ router
   .post(assetController.createAsset);
 
 router.route("/:slug").get(assetController.getAsset);
-router.patch("/bid", authController.protect, assetController.createBid);
+router.post("/bid", authController.protect, assetController.createBid);
 
 router.get(
   "/checkout-session/:assetId",
