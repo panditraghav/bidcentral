@@ -10,7 +10,8 @@ export default function AdminItemsTable({ items }: { items: ItemType[] }) {
             <TableHeader>
                 <TableRow>
                     <TableHead>Name</TableHead>
-                    <TableHead>Price</TableHead>
+                    <TableHead>Starting Price</TableHead>
+                    <TableHead>Highest Bid</TableHead>
                     <TableHead>Time Remaining</TableHead>
                     <TableHead>More Info</TableHead>
                 </TableRow>
@@ -29,11 +30,15 @@ export default function AdminItemsTable({ items }: { items: ItemType[] }) {
 function AdminItemsTableRow({ item }: { item: ItemType }) {
     const countdown = useCountdown(item.bidCloseAt)
 
+    const isTimeEnded = countdown.days === 0 && countdown.hours === 0 && countdown.minutes === 0 && countdown.seconds === 0
+
     return (
         <TableRow>
             <TableCell>{item.name}</TableCell>
             <TableCell>{item.price}</TableCell>
+            <TableCell>{item.currentBid}</TableCell>
             <TableCell>
+                {isTimeEnded && <span>Times Up</span>}
                 <span>
                     {countdown?.days > 0 ? countdown.days + ' days ' : ''}
                 </span>
