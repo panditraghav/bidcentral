@@ -1,6 +1,7 @@
 import Container from "../Container";
 import { AspectRatio } from "@/components/ui/AspectRatio";
 import { Skeleton } from "../ui/Skeleton";
+import TableSkeleton from "./TableSkeleton";
 
 export default function ItemPageSkeleton() {
     return (
@@ -28,17 +29,6 @@ export default function ItemPageSkeleton() {
     )
 }
 
-function TableSkeleton({ numOfRows }: { numOfRows: number }) {
-    const rows: JSX.Element[] = []
-    for (let i = 0; i < numOfRows; i++) {
-        rows.push(<Skeleton className="my-4 h-6 w-full" key={i} />)
-    }
-    return (
-        <>
-            {rows}
-        </>
-    )
-}
 
 function HighestBidSkeleton() {
     return (

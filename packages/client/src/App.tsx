@@ -11,7 +11,6 @@ import RegisterPage from '@/pages/Register';
 import ItemPage from './pages/Item';
 import { AnimatePresence } from 'framer-motion';
 import AdminHomePage from './pages/Admin/Home';
-import AdminLoginPage from './pages/Admin/Login';
 
 const queryClient = new QueryClient()
 
@@ -32,7 +31,6 @@ export default function App() {
                                     </Route>
                                     <Route path="/admin" element={<AdminLayout />} >
                                         <Route path="" element={<AdminHomePage />} />
-                                        <Route path="login" element={<AdminLoginPage />} />
                                     </Route>
                                     <Route path="*" element={<div>Not found</div>} />
                                 </Routes>

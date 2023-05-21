@@ -1,6 +1,7 @@
 import AddItemDialog from "@/components/AddItemDialog";
 import AdminItemsTable from "@/components/AdminItemsTable";
 import Container from "@/components/Container";
+import AdminHomeSkeleton from "@/components/skeleton/AdminHomeSkeleton";
 import { Button } from "@/components/ui/Button";
 import { useUser } from "@/context/user";
 import { getAllItems } from "@/utils/api";
@@ -15,7 +16,7 @@ export default function AdminHomePage() {
     const [dialogOpen, setDialogOpen] = useState(false)
 
     if (isUserLoading) {
-        return <Container>Loading....</Container>
+        return <AdminHomeSkeleton />
     }
     if (error) {
         return <Container>Something went wrong!</Container>

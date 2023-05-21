@@ -85,6 +85,10 @@ export default function ItemPage() {
                         <img src={item?.image} alt={item?.name} className="rounded-sm w-full h-full object-cover" />
                     </AspectRatio>
                     <h1 className="text-2xl mb-4">{item?.name}</h1>
+                    <div>
+                        <span className="font-medium">Starting price:- </span>
+                        <span>{item?.price}</span>
+                    </div>
                     <p>{item?.description}</p>
                 </div>
                 <div className="basis-2/3 relative">
