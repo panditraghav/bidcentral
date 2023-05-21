@@ -21,7 +21,7 @@ export default function AdminHomePage() {
         return <Container>Something went wrong!</Container>
     }
     if (!user?.userId || user.role !== 'admin') {
-        navigate('/admin/login', { relative: 'path' })
+        navigate('/login', { relative: 'path' })
         return null;
     }
     return (

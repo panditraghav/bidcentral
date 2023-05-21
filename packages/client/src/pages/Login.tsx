@@ -3,8 +3,8 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Input } from "@/components/ui/Input";
 import { setJWT } from "@/utils";
 import { SERVER_URL } from "@/utils/url";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useState } from "react";
+import { useQueryClient } from "@tanstack/react-query";
+import { FormEvent, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
@@ -16,41 +16,34 @@ export default function LoginPage() {
     const queryClient = useQueryClient()
     const navigate = useNavigate()
 
-    const mutation = useMutation({
-        mutationFn: postLogin,
-        onSuccess: (data) => {
-            // Invalidate and refetch
-            queryClient.invalidateQueries({ queryKey: ['user'] })
-            if (data.token) {
-                setJWT(data.token)
-                navigate('/')
-            } else {
-                toast('Some error occured', { type: 'error' })
-            }
-        },
-        onError: () => {
-            toast('Invalid username or password', { type: 'error' })
-        }
-    })
-
-    function postLogin() {
-        return fetch(
-            `${SERVER_URL}/users/login`,
-            {
+    async function handleLogin(e: FormEvent) {
+        e.preventDefault()
+        try {
+            const data = await fetch(`${SERVER_URL}/users/login`, {
                 method: 'post',
                 headers: {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({ email, password })
-            }).then(res => res.json()
-            )
-    }
-    function handleLogin() {
-        mutation.mutate()
+            }).then(res => res.json())
+
+            if (data.token) {
+                queryClient.invalidateQueries({ queryKey: ['user'] })
+                setJWT(data.token)
+                navigate('/')
+            } else {
+                toast('Some error occured', { type: 'error' })
+            }
+        } catch (error) {
+            toast('Some error occured', { type: 'error' })
+        }
     }
 
     return (
-        <div className="w-screen h-screen flex justify-center items-center absolute top-0 left-0">
+        <form
+            className="w-screen h-screen flex justify-center items-center absolute top-0 left-0"
+            onSubmit={handleLogin}
+        >
             <Card className="w-72">
                 <CardHeader>
                     <CardTitle>Login</CardTitle>
@@ -71,7 +64,7 @@ export default function LoginPage() {
                     />
                 </CardContent>
                 <CardFooter className="justify-between">
-                    <Button onClick={handleLogin}>Login</Button>
+                    <Button type="submit">Login</Button>
                     <Button variant="link" asChild>
                         <Link to="/register" className="w-32">
                             Don't have an account?
@@ -79,6 +72,6 @@ export default function LoginPage() {
                     </Button>
                 </CardFooter>
             </Card>
-        </div>
+        </form>
     )
 }
