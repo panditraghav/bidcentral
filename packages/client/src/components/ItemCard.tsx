@@ -8,7 +8,7 @@ import { motion } from "framer-motion";
 
 
 export default function ItemCard({ item }: { item: ItemType }) {
-    const countdown = useCountdown(item.bidCloseAt)
+    const countdown = useCountdown(new Date(item.bidClosedAt))
 
     const isEnded = countdown.days === 0 && countdown.hours === 0 && countdown.minutes === 0 && countdown.seconds === 0;
 

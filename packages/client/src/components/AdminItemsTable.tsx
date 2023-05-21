@@ -28,7 +28,7 @@ export default function AdminItemsTable({ items }: { items: ItemType[] }) {
 }
 
 function AdminItemsTableRow({ item }: { item: ItemType }) {
-    const countdown = useCountdown(item.bidCloseAt)
+    const countdown = useCountdown(new Date(item.bidClosedAt))
 
     const isTimeEnded = countdown.days === 0 && countdown.hours === 0 && countdown.minutes === 0 && countdown.seconds === 0
 

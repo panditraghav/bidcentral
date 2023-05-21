@@ -7,6 +7,7 @@ import TimePicker from "./TimePicker";
 import { toast } from "react-toastify";
 import { SERVER_URL } from "@/utils/url";
 import { getAuthHeaders } from "@/utils/headers";
+import { useQueryClient } from "@tanstack/react-query";
 
 function isValidInput({ name, endDate, description, imageURL, price }: {
     name: string;
@@ -41,6 +42,8 @@ export default function AddItemDialog({
     const [min, setMin] = useState<number>(0)
     const [sec, setSec] = useState<number>(0)
 
+    const queryClient = useQueryClient()
+
     async function onAdd() {
         if (!isValidInput({ name, description, imageURL, endDate, price })) {
             toast("Invalid input", { type: 'error' })
@@ -62,7 +65,7 @@ export default function AddItemDialog({
             if (res.ok) {
                 toast("Item added", { type: 'success' })
                 onOpenChange(false)
-                location.reload()
+                queryClient.invalidateQueries(['admin-all-items'])
             } else {
                 toast("Some error occured", { type: 'error' })
             }

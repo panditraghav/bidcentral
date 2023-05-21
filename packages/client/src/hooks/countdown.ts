@@ -7,7 +7,7 @@ export type CountDown = {
     seconds: number;
 }
 export function getCountdown(endDate?: Date): CountDown {
-    const endDateTime = endDate?.getTime() || Date.now()
+    const endDateTime = endDate ? endDate.getTime() : Date.now()
     const now = Date.now()
 
     if (!endDate || endDateTime < now) return {

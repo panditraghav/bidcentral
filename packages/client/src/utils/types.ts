@@ -5,8 +5,8 @@ export type ItemType = {
     image: string;
     description: string;
     price: number;
-    bidOpenAt: Date;
-    bidCloseAt: Date;
+    bidOpendAt: string;
+    bidClosedAt: string;
     currentBid: number;
     bids: Bid[];
 }

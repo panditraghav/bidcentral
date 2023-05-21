@@ -45,10 +45,6 @@ assetSchema.pre("save", function (next) {
   // console.log(this);
   this.slug = slugifiy(this.name, { lower: true });
   console.log(this.nextBid);
-  if (this.currentBid === 0) {
-    this.currentBid = this.price;
-    this.nextBid = this.price;
-  }
   next();
 });
 

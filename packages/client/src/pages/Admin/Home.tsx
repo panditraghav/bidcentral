@@ -12,7 +12,7 @@ import { useNavigate } from "react-router-dom";
 export default function AdminHomePage() {
     const navigate = useNavigate()
     const { user, isLoading: isUserLoading, error } = useUser()
-    const { data: items, isLoading: isItemsLoading } = useQuery({ queryFn: getAllItems, queryKey: ['all-items'] })
+    const { data: items, isLoading: isItemsLoading } = useQuery({ queryFn: getAllItems, queryKey: ['admin-all-items'] })
     const [dialogOpen, setDialogOpen] = useState(false)
 
     if (isUserLoading) {

@@ -108,6 +108,7 @@ exports.createAsset = async (req, res) => {
       price: req.body.price,
       // bidClosedAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
       bidClosedAt: req.body.bidClosedAt,
+      currentBid: 0,
       image: req.body.image,
     };
 
