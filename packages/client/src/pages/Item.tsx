@@ -127,9 +127,10 @@ export default function ItemPage() {
                             className="text-sm"
                             key={countdown.hours}
                         >
-                            <span>
-                                {isEnded ? 'Deal Ended ' : 'Ends in '}
-                            </span>
+                            {isEnded ?
+                                <span className="dark:text-red-300 text-red-800">Deal Ended</span> :
+                                <span>Ends in </span>
+                            }
                             <span>
                                 {countdown.days > 0 ? countdown.days + ' days ' : ''}
                             </span>
