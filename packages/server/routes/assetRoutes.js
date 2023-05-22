@@ -12,7 +12,7 @@ router.route("/:slug").get(assetController.getAsset);
 router.post("/bid", authController.protect, assetController.createBid);
 
 router.get(
-  "/checkout-session/:assetId",
+  "/checkout-session/:amount",
   authController.protect,
   assetController.getCheckoutSession
 );
