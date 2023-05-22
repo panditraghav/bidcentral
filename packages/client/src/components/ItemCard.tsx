@@ -46,7 +46,8 @@ export default function ItemCard({ item }: { item: ItemType }) {
                     </span>
                 </motion.div>
             </CardContent>
-            <CardFooter>
+            <CardFooter className="flex justify-between">
+                <span className="mr-2 dark:text-green-400 text-green-600">From &#8377; {item.price.toLocaleString('en-IN')}</span>
                 <Button variant="outline" asChild>
                     <Link to={`/item/${item.slug}`}>View</Link>
                 </Button>

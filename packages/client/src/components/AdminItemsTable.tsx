@@ -35,8 +35,8 @@ function AdminItemsTableRow({ item }: { item: ItemType }) {
     return (
         <TableRow>
             <TableCell>{item.name}</TableCell>
-            <TableCell>{item.price}</TableCell>
-            <TableCell>{item.currentBid}</TableCell>
+            <TableCell>&#8377; {item.price.toLocaleString('en-IN')}</TableCell>
+            <TableCell>&#8377; {item.currentBid.toLocaleString('en-IN')}</TableCell>
             <TableCell>
                 {isTimeEnded && <span>Times Up</span>}
                 <span>

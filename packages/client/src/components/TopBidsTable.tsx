@@ -17,7 +17,7 @@ export default function TopBidsTable({ bids }: { bids?: Bid[] }) {
                     return (
                         <TableRow key={bid._id}>
                             <TableCell>{bid.user}</TableCell>
-                            <TableCell>{bid.amount}</TableCell>
+                            <TableCell>&#8377; {bid.amount.toLocaleString('en-IN')}</TableCell>
                         </TableRow>
                     )
                 })}

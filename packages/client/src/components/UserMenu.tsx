@@ -38,7 +38,7 @@ export default function UserMenu({ user }: { user: User }) {
                     <DropdownMenuSeparator />
                     <DropdownMenuSub>
                         <DropdownMenuSubTrigger>
-                            Credit:- {user.credit} Rs
+                            Credit:- &#8377; {user.credit}
                         </DropdownMenuSubTrigger>
                         <DropdownMenuSubContent>
                             <DropdownMenuItem

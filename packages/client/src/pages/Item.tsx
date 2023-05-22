@@ -117,7 +117,7 @@ export default function ItemPage() {
                     <h1 className="text-2xl mb-4">{item?.name}</h1>
                     <div>
                         <span className="font-medium">Starting price:- </span>
-                        <span>{item?.price} Rs</span>
+                        <span>&#8377; {item?.price}</span>
                     </div>
                     <div>
                         <motion.div
@@ -159,7 +159,7 @@ export default function ItemPage() {
                             >
                                 <span className="font-medium">Highest bid:- </span>
                                 <span>
-                                    {highestBid} Rs
+                                    &#8377; {highestBid.toLocaleString('en-IN')}
                                 </span>
                             </motion.div>
                         </div>
@@ -167,7 +167,7 @@ export default function ItemPage() {
                             <Button variant="link">
                                 <MinusIcon />
                             </Button>
-                            <Button onClick={bid} disabled={isEnded}>Bid {newBid} Rs</Button>
+                            <Button onClick={bid} disabled={isEnded}>Bid &#8377; {newBid.toLocaleString('en-IN')}</Button>
                             <Button variant="link">
                                 <PlusIcon />
                             </Button>
