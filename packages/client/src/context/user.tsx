@@ -13,6 +13,7 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
         queryKey: ['user'],
         queryFn: () => fetch(
             `${SERVER_URL}/users/auth`,
+            `${SERVER_URL}/api/users/auth`,
             {
                 headers: {
                     ...getAuthHeaders()

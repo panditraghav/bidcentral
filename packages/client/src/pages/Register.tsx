@@ -18,7 +18,7 @@ export default function RegisterPage() {
         e.preventDefault()
         if (password.value != rePassword.value) return toast("Password doesn't match", { type: 'error' })
         try {
-            const data = await fetch(`${SERVER_URL}/users/signup`, {
+            const data = await fetch(`${SERVER_URL}/api/users/signup`, {
                 method: 'post',
                 headers: {
                     'Content-Type': 'application/json'

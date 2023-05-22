@@ -19,7 +19,7 @@ export default function LoginPage() {
     async function handleLogin(e: FormEvent) {
         e.preventDefault()
         try {
-            const data = await fetch(`${SERVER_URL}/users/login`, {
+            const data = await fetch(`${SERVER_URL}/api/users/login`, {
                 method: 'post',
                 headers: {
                     'Content-Type': 'application/json'

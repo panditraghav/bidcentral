@@ -48,7 +48,7 @@ export default function AddItemDialog({
         if (!isValidInput({ name, description, imageURL, endDate, price })) {
             toast("Invalid input", { type: 'error' })
         } else {
-            const res = await fetch(`${SERVER_URL}/assets`, {
+            const res = await fetch(`${SERVER_URL}/api/assets`, {
                 method: 'post',
                 body: JSON.stringify({
                     name,

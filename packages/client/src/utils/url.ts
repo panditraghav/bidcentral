@@ -1,1 +1,1 @@
-export const SERVER_URL = import.meta.env.VITE_API_URL || 'http://localhost:3200/api';
+export const SERVER_URL = import.meta.env.VITE_API_URL || 'http://localhost:3200';
