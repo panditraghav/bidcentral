@@ -3,6 +3,7 @@ import TopBidsTable from "@/components/TopBidsTable";
 import ItemPageSkeleton from "@/components/skeleton/ItemPageSkeleton";
 import { AspectRatio } from "@/components/ui/AspectRatio";
 import { Button } from "@/components/ui/Button";
+import { useUser } from "@/context/user";
 import { useCountdown } from "@/hooks/countdown";
 import { socket } from "@/socket";
 import { getItemsBySlug } from "@/utils/api";
@@ -22,6 +23,7 @@ export default function ItemPage() {
     const [newBid, setNewBid] = useState<number>(0)
     const { data: item, isLoading, isError } = useQuery([`item-${slug || ''}`], () => getItemsBySlug({ slug }))
     const countdown = useCountdown(new Date(item?.bidClosedAt || Date.now()))
+    const { user } = useUser()
 
     const isEnded = countdown.days === 0 && countdown.hours === 0 && countdown.minutes === 0 && countdown.seconds === 0;
 
@@ -68,7 +70,7 @@ export default function ItemPage() {
         } else {
             setNewBid(item?.price || 0)
         }
-    }, [nextBidAddition, highestBid])
+    }, [nextBidAddition, highestBid, item])
 
     if (isLoading) {
         return <ItemPageSkeleton />
@@ -81,6 +83,10 @@ export default function ItemPage() {
     }
 
     async function bid() {
+        if (user && user.credit - newBid < 0) {
+            toast('You don\'t have enough credit', { type: 'error' })
+            return;
+        }
         try {
             const res = await fetch(`${SERVER_URL}/api/assets/bid`, {
                 method: 'post',
