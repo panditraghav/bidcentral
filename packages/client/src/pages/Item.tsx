@@ -3,6 +3,7 @@ import TopBidsTable from "@/components/TopBidsTable";
 import ItemPageSkeleton from "@/components/skeleton/ItemPageSkeleton";
 import { AspectRatio } from "@/components/ui/AspectRatio";
 import { Button } from "@/components/ui/Button";
+import { socket } from "@/socket";
 import { getItemsBySlug } from "@/utils/api";
 import { getAuthHeaders } from "@/utils/headers";
 import { SERVER_URL } from "@/utils/url";
@@ -22,6 +23,30 @@ export default function ItemPage() {
 
     // 20% of item's initial price
     const nextBidAddition = (item?.price || 10000) / 5
+    useEffect(() => {
+        socket.emit('subscribe-item', {
+            item: {
+                slug
+            }
+        })
+        return () => {
+            socket.emit('unsubscribe-item', {
+                item: {
+                    slug
+                }
+            })
+        }
+    }, [])
+
+    useEffect(() => {
+        function bidListener() {
+            queryClient.invalidateQueries([`item-${slug || ''}`])
+        }
+        socket.on('bid', bidListener)
+        return () => {
+            socket.off('bid', bidListener)
+        }
+    }, [])
 
     useEffect(() => {
         if (item) {
@@ -53,7 +78,7 @@ export default function ItemPage() {
 
     async function bid() {
         try {
-            const res = await fetch(`${SERVER_URL}/assets/bid`, {
+            const res = await fetch(`${SERVER_URL}/api/assets/bid`, {
                 method: 'post',
                 body: JSON.stringify({
                     asset: item?._id,
@@ -67,6 +92,7 @@ export default function ItemPage() {
             if (res.ok) {
                 setHighestBid(newBid)
                 queryClient.invalidateQueries([`item-${slug || ''}`])
+                socket.emit('bid', { item: { slug } })
             } else {
                 console.log(await res.json())
                 toast('Some error occured!', { type: 'error' })

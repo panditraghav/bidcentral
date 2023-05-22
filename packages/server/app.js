@@ -3,6 +3,7 @@ const path = require("path");
 const cors = require("cors");
 const morgan = require("morgan");
 const cookieParser = require("cookie-parser");
+
 const app = express();
 
 const userRouter = require("./routes/userRoutes");
@@ -18,13 +19,13 @@ app.use(express.static(path.join(__dirname, "public")));
 
 // Development loggin
 if (process.env.NODE_ENV === "development") {
-  app.use(morgan("dev"));
+    app.use(morgan("dev"));
 }
 
 app.use("/api/users", userRouter);
 app.use("/api/assets", assetRouter);
 // app.use("/", viewRouter);
 
-module.exports = app;
 
+module.exports = app;
 // Remove logs from the project.
