@@ -8,6 +8,7 @@ import { toast } from "react-toastify";
 import { SERVER_URL } from "@/utils/url";
 import { getAuthHeaders } from "@/utils/headers";
 import { useQueryClient } from "@tanstack/react-query";
+import { Label } from "./ui/Label";
 
 function isValidInput({ name, endDate, description, imageURL, price }: {
     name: string;
@@ -94,46 +95,65 @@ export default function AddItemDialog({
                     <DialogDescription>
                         Add new items for bidding.
                     </DialogDescription>
-                    <div className="space-y-2 py-2">
+                </DialogHeader>
+                <div className="grid gap-4 py-4">
+                    <div className="grid grid-cols-4 items-center gap-4">
+                        <Label htmlFor="name" className="text-right">Name</Label>
                         <Input
-                            placeholder="Name"
+                            id="name"
                             value={name}
                             onChange={(e) => setName(e.target.value)}
+                            className="col-span-3"
                         />
+                    </div>
+                    <div className="grid grid-cols-4 items-center gap-4">
+                        <Label htmlFor="description" className="text-right">Description</Label>
                         <Input
-                            placeholder="Description"
+                            id="description"
                             value={description}
                             onChange={(e) => setDescription(e.target.value)}
+                            className="col-span-3"
                         />
+                    </div>
+                    <div className="grid grid-cols-4 items-center gap-4">
+                        <Label htmlFor="price" className="text-right">Price</Label>
                         <Input
-                            placeholder="Price"
+                            id="price"
                             type="number"
                             value={price}
-                            onChange={(e) => setPrice(e.target.valueAsNumber)}
+                            onChange={(e) => setPrice(e.target.valueAsNumber ? e.target.valueAsNumber : 0)}
+                            className="col-span-3"
                         />
+                    </div>
+                    <div className="grid grid-cols-4 items-center gap-4">
+                        <Label htmlFor="image" className="text-right">Image</Label>
                         <Input
-                            placeholder="Image URL"
+                            id="image"
                             value={imageURL}
                             onChange={(e) => setImageURL(e.target.value)}
+                            className="col-span-3"
                         />
-                        <div className="flex justify-between">
-                            <div className="basis-1/4 mr-2">
-                                <DatePicker
-                                    date={endDate}
-                                    setDate={setEndDate}
-                                />
-                            </div>
-                            <TimePicker
-                                className="basis-3/4"
-                                onChange={(newHr, newMin, newSec) => {
-                                    setHr(newHr)
-                                    setMin(newMin)
-                                    setSec(newSec)
-                                }}
-                            />
-                        </div>
                     </div>
-                </DialogHeader>
+                    <div className="grid grid-cols-4 items-center gap-4">
+                        <Label className="text-right">Date</Label>
+                        <DatePicker
+                            date={endDate}
+                            setDate={setEndDate}
+                        />
+                    </div>
+
+                    <div className="grid grid-cols-4 items-center gap-4">
+                        <Label className="text-right">Time</Label>
+                        <TimePicker
+                            className="col-span-3"
+                            onChange={(newHr, newMin, newSec) => {
+                                setHr(newHr)
+                                setMin(newMin)
+                                setSec(newSec)
+                            }}
+                        />
+                    </div>
+                </div>
                 <DialogFooter>
                     <Button
                         variant='default'
