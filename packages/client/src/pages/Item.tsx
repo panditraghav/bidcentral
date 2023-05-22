@@ -3,6 +3,7 @@ import TopBidsTable from "@/components/TopBidsTable";
 import ItemPageSkeleton from "@/components/skeleton/ItemPageSkeleton";
 import { AspectRatio } from "@/components/ui/AspectRatio";
 import { Button } from "@/components/ui/Button";
+import { useCountdown } from "@/hooks/countdown";
 import { socket } from "@/socket";
 import { getItemsBySlug } from "@/utils/api";
 import { getAuthHeaders } from "@/utils/headers";
@@ -20,6 +21,9 @@ export default function ItemPage() {
     const [highestBid, setHighestBid] = useState<number>(0)
     const [newBid, setNewBid] = useState<number>(0)
     const { data: item, isLoading, isError } = useQuery([`item-${slug || ''}`], () => getItemsBySlug({ slug }))
+    const countdown = useCountdown(new Date(item?.bidClosedAt || Date.now()))
+
+    const isEnded = countdown.days === 0 && countdown.hours === 0 && countdown.minutes === 0 && countdown.seconds === 0;
 
     // 20% of item's initial price
     const nextBidAddition = (item?.price || 10000) / 5
@@ -106,14 +110,39 @@ export default function ItemPage() {
     return (
         <Container>
             <div className="flex w-full md:flex-row flex-col">
-                <div className="basis-1/2 mr-4 h-full space-y-5 md:sticky md:left-0 md:top-20">
+                <div className="basis-1/2 mr-4 h-full space-y-3 md:sticky md:left-0 md:top-20">
                     <AspectRatio ratio={1.5}>
                         <img src={item?.image} alt={item?.name} className="rounded-sm w-full h-full object-cover" />
                     </AspectRatio>
                     <h1 className="text-2xl mb-4">{item?.name}</h1>
                     <div>
                         <span className="font-medium">Starting price:- </span>
-                        <span>{item?.price}</span>
+                        <span>{item?.price} Rs</span>
+                    </div>
+                    <div>
+                        <motion.div
+                            initial={{ y: 10, opacity: 0 }}
+                            animate={{ y: 0, opacity: 1 }}
+                            exit={{ y: -10, opacity: 0 }}
+                            className="text-sm"
+                            key={countdown.hours}
+                        >
+                            <span>
+                                {isEnded ? 'Deal Ended ' : 'Ends in '}
+                            </span>
+                            <span>
+                                {countdown.days > 0 ? countdown.days + ' days ' : ''}
+                            </span>
+                            <span>
+                                {countdown.hours > 0 ? countdown.hours + 'hr ' : ''}
+                            </span>
+                            <span>
+                                {countdown.minutes > 0 ? countdown.minutes + 'min ' : ''}
+                            </span>
+                            <span>
+                                {countdown.seconds > 0 ? countdown.seconds + 's' : ''}
+                            </span>
+                        </motion.div>
                     </div>
                     <p>{item?.description}</p>
                 </div>
@@ -138,7 +167,7 @@ export default function ItemPage() {
                             <Button variant="link">
                                 <MinusIcon />
                             </Button>
-                            <Button onClick={bid}>Bid {newBid} Rs</Button>
+                            <Button onClick={bid} disabled={isEnded}>Bid {newBid} Rs</Button>
                             <Button variant="link">
                                 <PlusIcon />
                             </Button>
