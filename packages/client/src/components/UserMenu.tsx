@@ -1,10 +1,10 @@
-import { Link } from "react-router-dom";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuPortal, DropdownMenuTrigger } from "./ui/DropdownMenu";
-import { User } from 'lucide-react'
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuPortal, DropdownMenuSeparator, DropdownMenuSub, DropdownMenuSubContent, DropdownMenuSubTrigger, DropdownMenuTrigger } from "./ui/DropdownMenu";
 import { removeJWT } from "@/utils";
 import { useQueryClient } from '@tanstack/react-query'
+import { User } from "@/context/user";
+import UserAvatar from "./UserAvatar";
 
-export default function UserMenu() {
+export default function UserMenu({ user }: { user: User }) {
     const queryClient = useQueryClient()
     async function logout() {
         removeJWT()
@@ -12,17 +12,31 @@ export default function UserMenu() {
         location.reload()
     }
 
+
     return (
         <DropdownMenu>
             <DropdownMenuTrigger>
-                <User />
+                <UserAvatar user={user} />
             </DropdownMenuTrigger>
             <DropdownMenuContent>
-                <DropdownMenuItem>
-                    <Link to="/profile">
-                        Profile
-                    </Link>
-                </DropdownMenuItem>
+                <DropdownMenuLabel className="flex items-center space-x-2">
+                    <UserAvatar user={user} />
+                    <span>{user.name}</span>
+                </DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                <DropdownMenuSub>
+                    <DropdownMenuSubTrigger>
+                        Credit:- {user.credit} Rs
+                    </DropdownMenuSubTrigger>
+                    <DropdownMenuSubContent>
+                        <DropdownMenuItem>
+                            Add Credit
+                        </DropdownMenuItem>
+                        <DropdownMenuItem>
+                            Send to bank
+                        </DropdownMenuItem>
+                    </DropdownMenuSubContent>
+                </DropdownMenuSub>
                 <DropdownMenuItem>
                     <button onClick={logout}>Logout</button>
                 </DropdownMenuItem>

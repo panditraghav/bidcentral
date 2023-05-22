@@ -18,7 +18,7 @@ function UserOrLogin({ }) {
         return <UserLoadingSkeleton />
     }
     if (user) {
-        return <UserMenu />
+        return <UserMenu user={user} />
     }
     return (
         <Button asChild>
