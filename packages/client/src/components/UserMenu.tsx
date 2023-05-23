@@ -81,15 +81,20 @@ function AddCreditDialog({ open, onOpenChange }: { open?: boolean, onOpenChange:
                     ...getAuthHeaders()
                 }
             })
-            const data = await res.json()
-            console.log(data)
+            const { status, session } = await res.json()
+            console.log(session)
             if (res.ok) {
-                // onOpenChange(false)
-                console.log("OK")
+                onOpenChange(false)
             } else {
                 toast('Some error occured', { type: 'error' })
             }
+            if (status === 'success') {
+                setTimeout(() => {
+                    location.assign(session?.url)
+                }, 0)
+            }
         } catch (error) {
+            console.log(error)
             toast('Some error occured', { type: 'error' })
         }
     }
