@@ -53,8 +53,8 @@ export default function UserMenu({ user }: { user: User }) {
                             </DropdownMenuItem>
                         </DropdownMenuSubContent>
                     </DropdownMenuSub>
-                    <DropdownMenuItem>
-                        <button onClick={logout}>Logout</button>
+                    <DropdownMenuItem onClick={logout}>
+                        Logout
                     </DropdownMenuItem>
                 </DropdownMenuContent>
                 <DropdownMenuPortal />
