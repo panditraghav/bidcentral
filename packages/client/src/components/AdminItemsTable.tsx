@@ -1,6 +1,5 @@
 import { ItemType } from "@/utils";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "./ui/Table";
-import { InfoIcon } from "lucide-react";
 import { useCountdown } from "@/hooks/countdown";
 
 
@@ -13,7 +12,6 @@ export default function AdminItemsTable({ items }: { items: ItemType[] }) {
                     <TableHead>Starting Price</TableHead>
                     <TableHead>Highest Bid</TableHead>
                     <TableHead>Time Remaining</TableHead>
-                    <TableHead>More Info</TableHead>
                 </TableRow>
             </TableHeader>
             <TableBody>
@@ -52,7 +50,6 @@ function AdminItemsTableRow({ item }: { item: ItemType }) {
                     {countdown.seconds > 0 ? countdown.seconds + 's' : ''}
                 </span>
             </TableCell>
-            <TableCell><InfoIcon /></TableCell>
         </TableRow>
     )
 }
