@@ -3,6 +3,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Input } from "@/components/ui/Input";
 import { setJWT } from "@/utils";
 import { SERVER_URL } from "@/utils/url";
+import { useQueryClient } from "@tanstack/react-query";
 import { ChangeEvent, FormEvent, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -13,6 +14,7 @@ export default function RegisterPage() {
     const password = useInput()
     const rePassword = useInput()
     const navigate = useNavigate()
+    const queryClient = useQueryClient()
 
     async function handleSubmit(e: FormEvent) {
         e.preventDefault()
@@ -32,6 +34,7 @@ export default function RegisterPage() {
 
             if (data.token) {
                 setJWT(data.token)
+                queryClient.invalidateQueries(['user'])
                 navigate('/')
             } else {
                 throw Error('No token!')

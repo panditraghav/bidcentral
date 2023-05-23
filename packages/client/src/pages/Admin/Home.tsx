@@ -27,7 +27,7 @@ export default function AdminHomePage() {
     }
     return (
         <Container >
-            <div className="flex justify-between">
+            <div className="flex justify-between mb-4">
                 <h1 className="font-medium text-lg">Items </h1>
                 <Button
                     variant="outline"
