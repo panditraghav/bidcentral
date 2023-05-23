@@ -16,7 +16,7 @@ const DB = process.env.DATABASE.replace(
 // console.log(DB);
 
 // Connect to the database
-mongoose.connect(DB).then(() => console.log("DB connection successfull"));
+mongoose.connect(DB).then(() => console.log("DB connection successfull")).catch(err=> console.log(err));
 
 
 const port = 3200;
