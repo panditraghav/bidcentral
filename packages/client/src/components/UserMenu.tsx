@@ -53,7 +53,7 @@ export default function UserMenu({ user }: { user: User }) {
                             </DropdownMenuItem>
                         </DropdownMenuSubContent>
                     </DropdownMenuSub>
-                    <DropdownMenuItem onClick={logout}>
+                    <DropdownMenuItem onClick={logout} >
                         Logout
                     </DropdownMenuItem>
                 </DropdownMenuContent>
@@ -130,6 +130,23 @@ function AddCreditDialog({ open, onOpenChange }: { open?: boolean, onOpenChange:
 function TransferCreditDialog({ open, onOpenChange }: { open?: boolean, onOpenChange: (open: boolean) => void }) {
     const [amount, setAmount] = useState<number>(0)
 
+    async function transfer() {
+        try {
+            const res = await fetch(`${SERVER_URL}/api/users/transfer-credit/${amount}`, {
+                headers: {
+                    ...getAuthHeaders()
+                }
+            })
+            const resJSON = await res.json()
+            if (!res.ok) {
+                toast(resJSON.message || 'You don\'t have enough credit to transfer', { type: 'error' })
+                return;
+            }
+        } catch (error) {
+            toast('Some error occred', { type: 'error' })
+        }
+    }
+
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
             <DialogContent>
@@ -150,7 +167,7 @@ function TransferCreditDialog({ open, onOpenChange }: { open?: boolean, onOpenCh
                     />
                 </div>
                 <DialogFooter>
-                    <Button>
+                    <Button onClick={transfer}>
                         Continue
                     </Button>
                 </DialogFooter>
