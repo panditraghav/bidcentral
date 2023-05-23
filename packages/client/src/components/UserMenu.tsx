@@ -129,6 +129,7 @@ function AddCreditDialog({ open, onOpenChange }: { open?: boolean, onOpenChange:
 
 function TransferCreditDialog({ open, onOpenChange }: { open?: boolean, onOpenChange: (open: boolean) => void }) {
     const [amount, setAmount] = useState<number>(0)
+    const queryClient = useQueryClient()
 
     async function transfer() {
         try {
@@ -142,6 +143,8 @@ function TransferCreditDialog({ open, onOpenChange }: { open?: boolean, onOpenCh
                 toast(resJSON.message || 'You don\'t have enough credit to transfer', { type: 'error' })
                 return;
             }
+            queryClient.invalidateQueries({ queryKey: ['user'] })
+            onOpenChange(false)
         } catch (error) {
             toast('Some error occred', { type: 'error' })
         }

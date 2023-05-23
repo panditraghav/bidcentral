@@ -13,6 +13,7 @@ function configureSocket(server) {
         })
 
         socket.on('bid', ({ item }) => {
+            console.log('New bid', item)
             socket.to(item.slug).emit('bid')
         })
     });
