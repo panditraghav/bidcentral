@@ -171,11 +171,23 @@ export default function ItemPage() {
                             </motion.div>
                         </div>
                         <div className="flex items-center">
-                            <Button variant="link">
+                            <Button
+                                variant="link"
+                                onClick={() => {
+                                    if (newBid - nextBidAddition > highestBid) {
+                                        setNewBid(newBid - nextBidAddition)
+                                    }
+                                }}
+                            >
                                 <MinusIcon />
                             </Button>
                             <Button onClick={bid} disabled={isEnded}>Bid &#8377; {newBid.toLocaleString('en-IN')}</Button>
-                            <Button variant="link">
+                            <Button
+                                variant="link"
+                                onClick={() => {
+                                    setNewBid(newBid + nextBidAddition)
+                                }}
+                            >
                                 <PlusIcon />
                             </Button>
                         </div>
