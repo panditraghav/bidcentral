@@ -80,7 +80,7 @@ exports.protect = async (req, res, next) => {
     }
 
     if (!token) {
-      res.status(401).send()
+      res.status(401).send();
       return next(
         new Error("You are not logged in, please login to get access")
       );
@@ -88,12 +88,12 @@ exports.protect = async (req, res, next) => {
 
     // Verify the token
     const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
-    console.log(decoded);
+    // console.log(decoded);
 
     // check if user exists
     const currentUser = await User.findById(decoded.id);
     if (!currentUser) {
-      res.status(401).send()
+      res.status(401).send();
       return next(new Error("User does not exist"));
     }
 

@@ -1,4 +1,6 @@
-const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
+const stripe = require("stripe")(
+  "sk_test_51N7lzOSAja2NO5MHUxJmlhja5rnFCHzbezupTpXTzhrD0i2aMGwOs2jLENpVI9QtVkTcdbsIlOI3aUKNQa9g43PL002SyBTg1X"
+);
 const Asset = require("../models/assetModel");
 const User = require("../models/userModel");
 const factory = require("./handlerFactory");
@@ -6,13 +8,17 @@ const factory = require("./handlerFactory");
 exports.getCheckoutSession = async (req, res, next) => {
   try {
     const amount = req.params.amount;
+    console.log(amount);
+
+    const user = req.user;
+    user.credit += amount;
+    await user.save();
+
     // 2) Create checkout session
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],
-      success_url: `${req.protocol}://${req.get("host")}/?user=${
-        req.user.id
-      }&amount=${amount}`,
-      cancel_url: `${req.protocol}://${req.get("host")}/assets/`,
+      success_url: `${req.get("origin")}`,
+      cancel_url: `${req.get("origin")}`,
       customer_email: req.user.email,
       // client_reference_id: req.params.assetId,
       mode: "payment",
@@ -21,7 +27,7 @@ exports.getCheckoutSession = async (req, res, next) => {
           quantity: 1,
           price_data: {
             currency: "inr",
-            unit_amount: amount,
+            unit_amount: Number(amount) * 100,
             product_data: {
               name: "Credits",
               description: "Just pay and you are ready to go",
@@ -37,76 +43,31 @@ exports.getCheckoutSession = async (req, res, next) => {
       session,
     });
   } catch (err) {
-    console.log(err.message);
+    console.log(err);
   }
 
   // res.status(200).redirect(session.url);
 };
 
-exports.creditsCheckout = async (req, res, next) => {
-  // This is only temporary because it is unsecure, everyone can book without paying.
-  // const { asset, user, price } = req.query;
-  // if (!asset && !user && !price) {
-  //   return next();
-  // }
-  // const userDoc = await User.findById(user);
-  // console.log(userDoc);
-  // const userDoc2 = await User.findOne({ _id: user });
-  // console.log(userDoc2);
-  // const assetDoc = await Asset.findById(asset);
+// exports.creditsCheckout = async (req, res, next) => {
+//   try {
+//     const { userId, amount } = req.query;
+//     const amount = console.log(req.query);
 
-  // const bodyForAsset = {
-  //   user: userDoc.slug,
-  //   amount: price,
-  // };
-  // const bodyForUser = {
-  //   asset: assetDoc.slug,
-  //   amount: price,
-  // };
+//     if (!userId && !amount) {
+//       return next();
+//     }
 
-  // const updatedObjForUser = {};
-  // const updatedObjForAsset = {};
+//     const user = await User.findById(userId);
 
-  // updatedObjForUser.bids = bodyForUser;
-  // updatedObjForAsset.bids = bodyForAsset;
-
-  // // await Asset.updateOne(
-  // //   { id: asset },
-  // //   { $push: updatedObjForAsset, $set: { currentBid: price } }
-  // // );
-
-  // // await User.updateOne({ id: user }, { $push: updatedObjForUser });
-
-  // const assetPromise = Asset.updateOne(
-  //   { _id: asset },
-  //   { $push: updatedObjForAsset, $set: { currentBid: price } }
-  // );
-  // const userPromise = User.updateOne(
-  //   { _id: user },
-  //   { $push: updatedObjForUser }
-  // );
-
-  // Promise.all([assetPromise, userPromise])
-  //   .then(([assetUpdateResult, userUpdateResult]) => {
-  //     console.log("Asset update result: ", assetUpdateResult);
-  //     console.log("User update result: ", userUpdateResult);
-  //   })
-  //   .catch((err) => {
-  //     console.log(err.message);
-  //   });
-  try {
-    const { userId, amount } = req.query;
-    console.log(req.query);
-
-    const user = await User.findById(userId);
-
-    user.credit = user.credit + amount;
-    await user.save();
-    res.redirect(req.originalUrl.split("?")[0]);
-  } catch (err) {
-    console.log(err.message);
-  }
-};
+//     user.credit = user.credit + amount;
+//     await user.save();
+//     res.redirect(req.originalUrl.split("?")[0]);
+//     res.redirect("http://localhost:5173");
+//   } catch (err) {
+//     console.log(err);
+//   }
+// };
 
 exports.createAsset = async (req, res) => {
   try {
