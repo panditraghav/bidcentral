@@ -7,7 +7,7 @@ const factory = require("./handlerFactory");
 
 exports.getCheckoutSession = async (req, res, next) => {
   try {
-    const amount = req.params.amount;
+    const amount = Number(req.params.amount);
     console.log(amount);
 
     const user = req.user;

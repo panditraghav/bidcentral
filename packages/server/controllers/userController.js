@@ -3,7 +3,7 @@ const User = require("../models/userModel");
 
 exports.transferCredit = async (req, res) => {
   try {
-    const amount = req.params.amount;
+    const amount = Number(req.params.amount);
     const user = req.user;
     if (user.credit < amount) {
       res.status(400).json({
