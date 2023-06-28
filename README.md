@@ -26,16 +26,14 @@ npm run dev -w client
 
 ### User
 
-[X] User Login.
-[ ] User Register.
-[X] Show All item in home page.
-[ ] Users add credit to their account.
-[ ] Users can make a bid in real-time.
-[ ] Show the name and image of Top bidder.
-[ ] Show purchase history to users
+- [X] User Login.
+- [X] User Register.
+- [X] Show All item in home page.
+- [X] Users add credit to their account.
+- [X] Users can make a bid in real-time (uses Socket.io).
+- [X] Show the name and image of Top bidder.
 
 ### Admin
 
-[ ] Add items from admin panel.
-[ ] Remove Items from admin panel.
-[ ] Show all items and bids.
+- [X] Add items from admin panel.
+- [X] Show all items and bids.
