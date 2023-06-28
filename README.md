@@ -2,6 +2,9 @@
 
 A E-bidding system
 
+![Home page](./preview/Home.png)
+![Asset page](./preview/Asset.png)
+
 ## Development setup
 
 ### Install
