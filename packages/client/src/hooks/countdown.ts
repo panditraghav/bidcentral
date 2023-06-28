@@ -6,9 +6,17 @@ export type CountDown = {
     minutes: number;
     seconds: number;
 }
-export function getCountdown(endDate: Date): CountDown {
-    const endDateTime = endDate.getTime()
+export function getCountdown(endDate?: Date): CountDown {
+    const endDateTime = endDate ? endDate.getTime() : Date.now()
     const now = Date.now()
+
+    if (!endDate || endDateTime < now) return {
+        days: 0,
+        hours: 0,
+        minutes: 0,
+        seconds: 0,
+    }
+
     const dist = endDateTime - now
     const msInDay = 1000 * 60 * 60 * 24
     const msInHour = 1000 * 60 * 60
@@ -24,7 +32,7 @@ export function getCountdown(endDate: Date): CountDown {
 }
 
 
-export function useCountdown(endDate: Date) {
+export function useCountdown(endDate?: Date) {
     const [countDown, setCountDown] = useState<CountDown>({ days: 0, hours: 0, minutes: 0, seconds: 0 })
 
     function tick() {

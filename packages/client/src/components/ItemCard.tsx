@@ -1,46 +1,58 @@
-import { Button, Card, CardActions, CardContent, CardMedia, Grid, Typography } from '@mui/material';
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { ItemType } from '../utils/types';
-import { useCountdown } from '../hooks/countdown';
+import { Link } from "react-router-dom";
+import { Button } from "./ui/Button";
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardImage, CardTitle } from "./ui/Card";
+import { ItemType } from "@/utils";
+import { AspectRatio } from "./ui/AspectRatio";
+import { useCountdown } from "@/hooks/countdown";
+import { motion } from "framer-motion";
 
 
 export default function ItemCard({ item }: { item: ItemType }) {
-    const [isImageLoaded, setIsImageLoaded] = useState(false)
-    const countDown = useCountdown(item.endDate)
+    const countdown = useCountdown(new Date(item.bidClosedAt))
+
+    const isEnded = countdown.days === 0 && countdown.hours === 0 && countdown.minutes === 0 && countdown.seconds === 0;
 
     return (
-        <Grid item xs={12} sm={6} md={4}>
-            <Card
-                sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}
-            >
-                <CardMedia
-                    component="img"
-                    sx={{
-                        pt: isImageLoaded ? '0' : '56.25%',
-                    }}
-                    onLoad={() => setIsImageLoaded(true)}
-                    image={item.image}
-                    alt="Random image from unsplash"
-                />
-                <CardContent sx={{ flexGrow: 1 }}>
-                    <Typography gutterBottom variant="h5" component="h2">
-                        {item.name}
-                    </Typography>
-                    <Typography>
-                        {item.description}
-                    </Typography>
-                    <Typography color="primary" sx={{ mt: 1 }}>
-                        Latest bid:- {item.currentPrice / 100} Rs.
-                    </Typography>
-                    <Typography color="secondary" sx={{ mt: 1 }}>
-                        Time Remaining:- {countDown.hours} hours, {countDown.minutes} minutes, {countDown.seconds} seconds
-                    </Typography>
-                </CardContent>
-                <CardActions sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                    <Button size="small" variant='outlined'><Link to={`/item/${item.id}`}>View</Link></Button>
-                </CardActions>
-            </Card>
-        </Grid>
+        <Card className="w-72 mx-2">
+            <AspectRatio ratio={1.5} className="relative">
+                <CardImage src={item.image} className="mb-2 object-cover w-full h-full" />
+            </AspectRatio >
+            <CardHeader>
+                <CardTitle className="">{item.name}</CardTitle>
+                <CardDescription>{item.description.split(' ').slice(0, 10).join(' ')}...</CardDescription>
+            </CardHeader>
+            <CardContent>
+                <motion.div
+                    initial={{ y: 10, opacity: 0 }}
+                    animate={{ y: 0, opacity: 1 }}
+                    exit={{ y: -10, opacity: 0 }}
+                    className="text-sm"
+                    key={countdown.hours}
+                >
+                    {isEnded ?
+                        <span className="dark:text-red-300 text-red-800">Deal Ended</span> :
+                        <span>Ends in </span>
+                    }
+                    <span>
+                        {countdown.days > 0 ? countdown.days + ' days ' : ''}
+                    </span>
+                    <span>
+                        {countdown.hours > 0 ? countdown.hours + 'hr ' : ''}
+                    </span>
+                    <span>
+                        {countdown.minutes > 0 ? countdown.minutes + 'min ' : ''}
+                    </span>
+                    <span>
+                        {countdown.seconds > 0 ? countdown.seconds + 's' : ''}
+                    </span>
+                </motion.div>
+            </CardContent>
+            <CardFooter className="flex justify-between">
+                <span className="mr-2 dark:text-green-400 text-green-600">From &#8377; {item.price.toLocaleString('en-IN')}</span>
+                <Button variant="outline" asChild>
+                    <Link to={`/item/${item.slug}`}>View</Link>
+                </Button>
+            </CardFooter>
+        </Card>
     )
 }

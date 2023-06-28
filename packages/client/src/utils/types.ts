@@ -1,11 +1,26 @@
 export type ItemType = {
-    id: string,
+    _id: string,
     name: string;
-    description: string;
-    startDate: Date;
-    endDate: Date;
+    slug: string;
     image: string;
-    currentPrice: number;
+    description: string;
+    price: number;
+    bidOpendAt: string;
+    bidClosedAt: string;
+    currentBid: number;
+    bids: Bid[];
+}
+
+export type AllItemResponse = {
+    status: string;
+    result: number;
+    docs: ItemType[];
 }
 
 export type ThemeMode = 'dark' | 'light'
+
+export type Bid = {
+    user: string;
+    _id: string;
+    amount: number;
+}

@@ -1,7 +1,12 @@
-const dotenv = require("dotenv");
+const app = require("./app");
+const http = require('http')
+
+const server = http.createServer(app)
+
+require("dotenv").config({ path: "./config.env" })
+require('./socket').configureSocket(server)
 const mongoose = require("mongoose");
 
-dotenv.config({ path: "./config.env" });
 
 // Making the Database link
 const DB = process.env.DATABASE.replace(
@@ -11,12 +16,12 @@ const DB = process.env.DATABASE.replace(
 // console.log(DB);
 
 // Connect to the database
-mongoose.connect(DB).then(() => console.log("DB connection successfull"));
+mongoose.connect(DB).then(() => console.log("DB connection successfull")).catch(err=> console.log(err));
 
-const app = require("./app");
 
-const port = 3300;
+const port = 3200;
 
-app.listen(port, () => {
+
+server.listen(port, () => {
   console.log(`App running on port ${port} `);
 });

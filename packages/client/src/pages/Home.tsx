@@ -1,22 +1,23 @@
-import { Container, Grid, } from "@mui/material";
-import ItemCard from "../components/ItemCard";
-import { items } from '../utils/testData'
+import Container from "@/components/Container";
+import ItemCard from "@/components/ItemCard";
+import HomePageSkeleton from "@/components/skeleton/HomePageSkeleton";
+import { getAllItems } from "@/utils/api";
+import { useQuery } from "@tanstack/react-query";
 
+export default function UserHomePage() {
+    const { data: items, isLoading } = useQuery({ queryFn: getAllItems, queryKey: ['all-items'] })
 
-export default function Home() {
+    if (isLoading) {
+        return <HomePageSkeleton />
+    }
+
     return (
-        <Container sx={{ my: 2 }} maxWidth="md">
-            <Grid container spacing={4}>
-                {items.map((item) => (
-                    <ItemCard item={item} key={item.id} />
-                ))}
-                {items.map((item) => (
-                    <ItemCard item={item} key={item.id} />
-                ))}
-                {items.map((item) => (
-                    <ItemCard item={item} key={item.id} />
-                ))}
-            </Grid>
-        </Container>
-    );
+        <Container className="my-8">
+            <div className="flex space-y-3 flex-wrap justify-center">
+                {!isLoading && items && items.docs.map((item) => {
+                    return < ItemCard item={item} key={item._id} />
+                })}
+            </div>
+        </Container >
+    )
 }
